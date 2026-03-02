@@ -1,0 +1,74 @@
+<div class="entry-header header">
+    <div class="wp-manga-nav">
+        <div class="entry-header_wrap">
+            <div class="c-breadcrumb-wrapper">
+                <div class="c-breadcrumb">
+                    <ol class="breadcrumb" typeof="BreadcrumbList" vocab="http://schema.org/">
+                        <li property="itemListElement" typeof="ListItem">
+                            <a href="/" property="item" typeof="WebPage">
+                                <span property="name">Anasayfa</span>
+                            </a>
+                            <meta content="1" property="position">
+                        </li>
+                        <li property="itemListElement" typeof="ListItem">
+                            <a href="/truyen-tranh">
+                                <span property="name">Manga</span>
+                            </a>
+                            <meta content="2" property="position">
+                        </li>
+                        <li property="itemListElement" typeof="ListItem">
+                            <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>">
+                                <span property="name">
+                                    <%= story.title %>
+                                </span>
+                            </a>
+                            <meta content="3" property="position">
+                        </li>
+
+
+                    </ol>
+                </div>
+                <div class="action-icon">
+                    <ul class="action_list_icon list-inline">
+                        <li>
+                            <a href="javascript:void(0)" title="Yer İmleri" class="wp-manga-action-button"><i
+                                    class="icon ion-ios-bookmark"></i></a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" title="Karanlık Tema"
+                                class="wp-manga-action-button _dark-theme"><i class="icon ion-md-contrast"></i></a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="select-view">
+            <div class="chapters_selectbox_holder">
+                <div class="c-selectpicker selectpicker_chapter"><label>
+                        <select class="selectpicker single-chapter-select">
+                            <% for (let item of chapters) {%>
+                                <option class="short" value="<%=item.slug%>.<%= item._id %>" <%=item._id===chapter._id
+                                    ? 'selected' : '' %>>
+                                    <%= item.name %>
+                                </option>
+                                <%} %>
+                        </select>
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="select-pagination">
+            <div class="nav-links">
+                <i class="mobile-nav-btn icon ion-md-menu"></i>
+                <div class="nav-previous">
+                    <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>" title="Önceki"
+                        class="btn prev_page">Önceki</a>
+                </div>
+                <div class="nav-next">
+                    <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>" title="Sonraki" disabled="disabled"
+                        class="btn next_page">Sonraki</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

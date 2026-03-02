@@ -1,0 +1,34 @@
+<footer class="site-footer">
+    <div class="bottom-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+
+                    <div class="nav-footer">
+                        <ul class="list-inline font-nav">
+                            <li class="menu-item">
+                                <a href="/">ANASAYFA</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="<%= process.env.GROUP %>" target="_blank">TOPLULUK</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="mailto:<%= process.env.EMAIL %>">BİZE ULAŞIN</a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="/cookie-policy">ÇEREZ POLİTİKASI</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="copyright">
+                        <p>
+                            <%= process.env.COPYRIGHT %>
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</footer>

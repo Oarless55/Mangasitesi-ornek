@@ -1,0 +1,175 @@
+<html lang="en-US">
+
+<%- include( 'includes/head' , { title, description: 'Çevrimiçi manga/webtoon oku - Her tür manga mevcut' , seo_image:
+    process.env.DOMAIN + '/images/share.jpg' , showAds: false } ); -%>
+
+
+    <body class="page <%= lightTheme ? '' : 'text-ui-light' %>">
+        <div id="app" class="wrap">
+            <div class="body-wrap">
+                <%- include('includes/header') -%>
+                    <div class="site-content">
+                        <div class="c-page-content style-2">
+                            <div class="content-area">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12">
+                                            <div class="main-col-inner">
+                                                <div class="c-blog-post">
+                                                    <div class="entry-header">
+                                                        <div class="entry-header_wrap">
+                                                            <div class="entry-title">
+                                                                <h2 class="item-title text-center">
+                                                                    <%= title %>
+                                                                </h2>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="entry-content">
+                                                        <div class="entry-content_wrap">
+                                                            <h2>Biz Kimiz</h2>
+                                                            <p>
+                                                                Web sitesi <%= process.env.APP %> ekibi tarafından
+                                                                    yönetilmektedir
+                                                                    ve aşağıda verilerinizin toplanması ve gizliliği ile
+                                                                    ilgili şartlarımız bulunmaktadır.
+                                                            </p>
+                                                            <h2>
+                                                                Hangi kişisel veriler toplanır ve neden toplanır
+                                                            </h2>
+                                                            <h3>Yorumlar</h3>
+                                                            <p>
+                                                                Ziyaretçiler sitede yorum bıraktığında, yorum formunda
+                                                                gösterilen verileri,
+                                                                ayrıca istenmeyen mesajları tespit etmeye yardımcı olmak
+                                                                için ziyaretçinin IP adresini ve tarayıcı bilgisi
+                                                                dizisini toplarız.
+                                                            </p>
+                                                            <p>
+                                                                E-posta adresinizden oluşturulan anonimleştirilmiş bir
+                                                                dize (hash olarak da adlandırılır),
+                                                                onu kullanıp kullanmadığınızı görmek için Gravatar
+                                                                hizmetine sağlanabilir. Gravatar hizmeti gizlilik
+                                                                politikasına buradan ulaşabilirsiniz:
+                                                                https://automattic.com/privacy/. Yorumunuz onaylandıktan
+                                                                sonra profil resminiz yorumunuzun bağlamında herkese
+                                                                açık olarak görünür.
+                                                            </p>
+                                                            <h3>Medya</h3>
+                                                            <p>
+                                                                Web sitesine görsel yüklerseniz, gömülü konum verileri
+                                                                (EXIF GPS) içeren görseller yüklemekten kaçınmalısınız.
+                                                                Web sitesi ziyaretçileri, web sitesindeki görsellerden
+                                                                herhangi bir konum verisini indirip çıkarabilir.
+                                                            </p>
+                                                            <h3>Çerezler (Cookies)</h3>
+                                                            <p>
+                                                                Sitemize bir yorum bırakırsanız, adınızı, e-posta
+                                                                adresinizi ve web sitenizi çerezlerde kaydetmeyi
+                                                                seçebilirsiniz.
+                                                                Bunlar size kolaylık sağlamak içindir, böylece başka bir
+                                                                yorum bıraktığınızda bilgilerinizi tekrar doldurmanız
+                                                                gerekmez. Bu çerezler bir yıl boyunca kalır.
+                                                            </p>
+                                                            <p>
+                                                                Giriş yaparsanız, tarayıcınızın çerezleri kabul edip
+                                                                etmediğini belirlemek için geçici bir çerez
+                                                                ayarlayacağız.
+                                                                Bu çerez hiçbir kişisel veri içermez ve tarayıcınızı
+                                                                kapattığınızda atılır.
+                                                            </p>
+                                                            <p>
+                                                                Giriş yaptığınızda, giriş bilgilerinizi ve ekran
+                                                                görüntüleme seçeneklerinizi kaydetmek için birkaç çerez
+                                                                de kuracağız.
+                                                                Giriş çerezleri iki gün, ekran seçenekleri çerezleri ise
+                                                                bir yıl sürer.
+                                                                "Beni Hatırla" seçeneğini seçerseniz, girişiniz iki
+                                                                hafta boyunca devam eder. Hesabınızdan çıkış yaparsanız,
+                                                                giriş çerezleri kaldırılacaktır.
+                                                            </p>
+                                                            <p>
+                                                                Bir makaleyi düzenler veya yayınlarsanız, tarayıcınıza
+                                                                ek bir çerez kaydedilir. Bu çerez hiçbir kişisel veri
+                                                                içermez
+                                                                ve sadece düzenlediğiniz makalenin gönderi kimliğini
+                                                                gösterir. 1 gün sonra süresi dolar.
+                                                            </p>
+                                                            <h3>Diğer web sitelerinden gömülen içerik</h3>
+                                                            <p>
+                                                                Bu sitedeki makaleler gömülü içerik (ör. videolar,
+                                                                resimler, makaleler vb.) içerebilir.
+                                                                Diğer web sitelerinden gömülen içerik, ziyaretçinin
+                                                                diğer web sitesini ziyaret etmiş gibi tamamen aynı
+                                                                şekilde davranır.
+                                                            </p>
+                                                            <p>
+                                                                Bu web siteleri sizin hakkınızda veri toplayabilir,
+                                                                çerez kullanabilir,
+                                                                ek üçüncü taraf izlemeyi gömebilir ve bir hesabınız
+                                                                varsa ve o web sitesine giriş yaptıysanız,
+                                                                gömülü içerikle etkileşiminizi izlemek de dahil olmak
+                                                                üzere bu gömülü içerikle etkileşiminizi izleyebilir.
+                                                            </p>
+                                                            <h2>Verilerinizi ne kadar süreyle tutarız</h2>
+                                                            <p>
+                                                                Eğer bir yorum bırakırsanız, yorum ve meta verileri
+                                                                süresiz olarak saklanır.
+                                                                Bunun nedeni, ardışık yorumları denetim kuyruğunda
+                                                                tutmak yerine otomatik olarak tanıyıp
+                                                                onaylayabilmemizdir.
+                                                            </p>
+                                                            <p>
+                                                                Web sitemize kayıt olan kullanıcılar için (varsa), aynı
+                                                                zamanda kendi kullanıcı
+                                                                profilinde sağladıkları kişisel bilgileri depolarız. Tüm
+                                                                kullanıcılar kişisel
+                                                                bilgilerini her zaman görebilir, düzenleyebilir veya
+                                                                silebilir (kullanıcı adlarını değiştirememeleri hariç).
+                                                                Web sitesi yöneticileri de bu bilgileri görebilir ve
+                                                                düzenleyebilir.
+                                                            </p>
+                                                            <h2>Verileriniz üzerindeki haklarınız neler</h2>
+                                                            <p>
+                                                                Bu sitede bir hesabınız varsa veya yorum bıraktıysanız,
+                                                                bize sağladığınız veriler de dahil olmak üzere
+                                                                hakkınızda tuttuğumuz
+                                                                kişisel verilerin dışa aktarılmış bir dosyasını almayı
+                                                                isteyebilirsiniz.
+                                                                Ayrıca hakkınızda tuttuğumuz tüm kişisel verileri
+                                                                silmemizi de isteyebilirsiniz.
+                                                                Bu, adli, cezai veya yasal amaçlar için tutmak zorunda
+                                                                olduğumuz hiçbir veriyi içermez.
+                                                            </p>
+                                                            <h2>Verileriniz nereye gönderiliyor</h2>
+                                                            <p>
+                                                                Ziyaretçi yorumları otomatik bir istenmeyen e-posta
+                                                                algılama hizmeti aracılığıyla kontrol edilebilir.
+                                                            </p>
+                                                            <p>&nbsp;</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <%- include('includes/footer') -%>
+            </div>
+            <!-- Modal -->
+            <%- include('includes/popup-session') -%>
+        </div>
+
+        <div class="align-items-center d-flex go-to-top justify-content-center active">
+            <i class="icon ion-md-arrow-up"></i>
+        </div>
+
+
+        <%- include('includes/script-core') -%>
+
+    </body>
+
+</html>
