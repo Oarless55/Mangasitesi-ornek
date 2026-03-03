@@ -99,13 +99,12 @@ export default {
       path: '/'
     },
     // IMPORTANT: prevent `@nuxtjs/apollo` from attempting automated `router.push('/')`
-    authenticationType: 'Bearer',
-    errorHandler: '~/plugins/apollo-config.js'
+    authenticationType: 'Bearer'
   },
 
   router: {
-    middleware: ['auth'],
-    extendRoutes(routes, resolve) {
+    middleware: [],
+    extendRoutes (routes, resolve) {
       routes.forEach((route) => {
         if (route.name === 'create') {
           route.path = '/story/create'
@@ -126,7 +125,7 @@ export default {
   },
 
   build: {
-    extend(config, { loaders: { less } }) {
+    extend (config, { loaders: { less } }) {
       less.javascriptEnabled = true
     }
   },

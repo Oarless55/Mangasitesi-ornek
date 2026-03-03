@@ -5,9 +5,9 @@
       :data-source="showSearch ? searchResult : stories"
       row-key="_id"
       :loading="!!isLoading"
-      :pagination="showSearch ? false : {
+      :pagination="showSearch || !countStories ? false : {
         current: page + 1,
-        total: countStories
+        total: countStories || 0
       }"
       @change="page = $event.current - 1"
     >
@@ -220,7 +220,7 @@ export default {
         loading
       }) {
         if (!loading) {
-          this.stories = data.myStories
+          this.stories = (data && data.myStories) ? data.myStories : []
         }
       }
     },

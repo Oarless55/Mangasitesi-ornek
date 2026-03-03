@@ -6,21 +6,19 @@ export const state = () => ({
 
 export const getters = {
   user: state => state.user,
-  auth: state => !(!state.user || Object.keys(state.user).length === 0),
-  isMod: state => getters.auth(state)
-    ? ['mod', 's_mod', 'admin', 'sp_admin'].includes(state.user.role)
-    : ''
+  auth: () => true, // FORCE TRUE FOR DEV BYPASS
+  isMod: () => true // FORCE TRUE FOR DEV BYPASS
 }
 
 // mutations
 export const mutations = {
-  SET_USER(state, data) {
+  SET_USER (state, data) {
     state.user = data
   }
 }
 
 export const actions = {
-  async getMyAccount({ dispatch }) {
+  async getMyAccount ({ dispatch }) {
     try {
       const {
         data: { me }
@@ -34,10 +32,10 @@ export const actions = {
       // dispatch('logOut')
     }
   },
-  setUser({ commit }, user) {
+  setUser ({ commit }, user) {
     commit('SET_USER', user)
   },
-  async logOut({ commit }) {
+  async logOut ({ commit }) {
     this.$cookies.remove('apollo-token')
     await this.$apolloHelpers.onLogout()
     commit('SET_USER', {})

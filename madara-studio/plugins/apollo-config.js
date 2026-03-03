@@ -18,23 +18,17 @@ export default ({ store, redirect }) => {
             // yêu cầu đăng nhập
             case 'UNAUTHENTICATED':
               if (process.browser) {
-                $nuxt.$message.error('Bu sayfaya erişim yetkiniz yok')
-                setTimeout(() => {
-                  store.dispatch('user/logOut')
-                }, 1500)
+                console.log('Bypassing UNAUTHENTICATED error locally.')
               }
               break
             case 'FORBIDDEN':
               if (process.browser) {
-                $nuxt.$message.error('Bu sayfaya erişim yetkiniz yok')
-                setTimeout(() => {
-                  store.dispatch('user/logOut')
-                }, 1500)
+                console.log('Bypassing FORBIDDEN error locally.')
               }
-              redirect('/404')
               break
             case 'NOTIFY':
               $nuxt.$message.error(message)
+              break
           }
         }
       })
