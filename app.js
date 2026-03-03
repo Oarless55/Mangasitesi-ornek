@@ -9,7 +9,33 @@ const apolloServer = require('./schema')
 
 const app = express()
 
-apolloServer.applyMiddleware({ app })
+// İzin verilen adresler
+const allowedOrigins = [
+  'https://ana-manga-siten.com',
+  'https://admin-studio-siten.com',
+  'http://localhost:3000'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('CORS tarafindan engellendi'));
+    }
+  },
+  credentials: true
+};
+
+// 1. App middleware'inden ÖNCE cors ekle
+app.use(cors(corsOptions))
+
+// 2. Apollo Server'a aynı CORS ayarlarını ver
+apolloServer.applyMiddleware({
+  app,
+  cors: corsOptions
+})
 
 //  apply to all requests
 // app.use(limiter)
@@ -17,7 +43,7 @@ apolloServer.applyMiddleware({ app })
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(cors())
+// app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
 
 // view engine setup
