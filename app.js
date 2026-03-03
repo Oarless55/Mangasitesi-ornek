@@ -13,7 +13,8 @@ const app = express()
 const allowedOrigins = [
   'https://ana-manga-siten.com',
   'https://admin-studio-siten.com',
-  'http://localhost:3000'
+  'http://localhost:3000',
+  'http://localhost:3001' // Admin Studio
 ];
 
 const corsOptions = {
