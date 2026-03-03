@@ -30,7 +30,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    '@/plugins/antd-ui'
+    '@/plugins/antd-ui',
+    { src: '@/plugins/vue-router-patch', mode: 'client' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
