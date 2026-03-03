@@ -84,7 +84,23 @@ export default {
     clientConfigs: {
       // recommended: use a file to declare the client configuration (see below for example)
       default: '~/plugins/apollo-config.js'
-    }
+    },
+    // Fix: Disable automatic default Apollo routing redirection that causes NavigationDuplicated
+    defaultOptions: {
+      $query: {
+        loadingKey: 'loading',
+        fetchPolicy: 'cache-and-network'
+      }
+    },
+    watchLoading: '~/plugins/apollo-config.js',
+    errorHandler: '~/plugins/apollo-config.js',
+    cookieAttributes: {
+      expires: 7,
+      path: '/'
+    },
+    // IMPORTANT: prevent `@nuxtjs/apollo` from attempting automated `router.push('/')`
+    authenticationType: 'Bearer',
+    errorHandler: '~/plugins/apollo-config.js'
   },
 
   router: {

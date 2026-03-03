@@ -14,13 +14,13 @@ export const getters = {
 
 // mutations
 export const mutations = {
-  SET_USER (state, data) {
+  SET_USER(state, data) {
     state.user = data
   }
 }
 
 export const actions = {
-  async getMyAccount ({ dispatch }) {
+  async getMyAccount({ dispatch }) {
     try {
       const {
         data: { me }
@@ -34,13 +34,15 @@ export const actions = {
       // dispatch('logOut')
     }
   },
-  setUser ({ commit }, user) {
+  setUser({ commit }, user) {
     commit('SET_USER', user)
   },
-  logOut () {
+  async logOut({ commit }) {
     this.$cookies.remove('apollo-token')
-    if (process.browser) {
-      window.location.href = '/'
+    await this.$apolloHelpers.onLogout()
+    commit('SET_USER', {})
+    if (process.browser && this.$router.currentRoute.path !== '/') {
+      this.$router.push('/')
     }
   }
 }
