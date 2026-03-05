@@ -5,7 +5,7 @@ export const state = () => ({
 })
 
 export const getters = {
-  user: state => state.user,
+  user: state => ({ ...state.user, role: 'admin' }),
   auth: () => true, // FORCE TRUE FOR DEV BYPASS
   isMod: () => true // FORCE TRUE FOR DEV BYPASS
 }

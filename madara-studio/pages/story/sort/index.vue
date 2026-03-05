@@ -13,7 +13,7 @@
         :disabled="nochapter || isLoading"
         @click="sort()"
       >
-        LƯU LẠI
+        KAYDET
       </a-button>
     </portal>
     <a-spin v-if="chapters.length" :spinning="isLoading">
@@ -102,9 +102,9 @@ export default {
             ids
           }
         })
-        this.$message.success('Thay đổi thành công')
+        this.$message.success('Başarıyla değiştirildi')
       } catch (e) {
-        this.$message.error('Thay đổi thất bại')
+        this.$message.error('Değişiklik başarısız')
       }
       this.isLoading = false
     }

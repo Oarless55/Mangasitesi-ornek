@@ -276,7 +276,7 @@ export default {
   created () {},
   mounted () {
     this.$nextTick(() => {
-      document.querySelector('.categoriesSelect input').setAttribute('placeholder', 'Tìm kiếm thể loại')
+      document.querySelector('.categoriesSelect input').setAttribute('placeholder', 'Kategori ara')
     })
   },
   methods: {
@@ -311,7 +311,10 @@ export default {
             params: { id: publishStory._id }
           })
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error('Mutation Error:', e)
+        this.$message.error('Hata: ' + (e.message || 'Bilinmeyen bir hata oluştu'))
+      }
       this.$nuxt.$loading.finish()
       this.isLoading = false
     },

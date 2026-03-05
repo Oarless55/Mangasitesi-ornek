@@ -31,7 +31,7 @@ module.exports = {
       const CategoryController = new categoryController()
       const category = await CategoryController.getOne(id)
       if (!category) {
-        throw new ForbiddenError('Catgory không tồn tại')
+        throw new ForbiddenError('Kategori mevcut değil')
       }
       const stories = await CategoryController.categoryGetBooks(
         id,

@@ -1,8 +1,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="google-site-verification" content="inccAK8aI3TKyVgTk9q8NcOm6lT1q5jm4WzcPqlQpbY" />
     <!--Meta Seo-->
-    <title><%= title %> | <%= process.env.APP %></title>
+    <title>
+        <%= title %> | <%= process.env.APP %>
+    </title>
     <meta name="description" content="<%= description %>">
     <meta name="generator" content="@dnstylish">
 
@@ -43,14 +46,18 @@
 
 
     <script type="text/javascript" src="/js/lazysizes/lazysizes.min.js" id="lazysizes-js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js" id="jquery-core-js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"
+        id="jquery-core-js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/js-cookie@3.0.0/dist/js.cookie.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:300,500,600,700|Open+Sans:regular,600,800&amp;subset=vietnamese">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css?family=Mulish:300,500,600,700|Open+Sans:regular,600,800&amp;subset=vietnamese">
 
     <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0&appId=155915046224033&autoLogAppEvents=1" nonce="8n6FtJjM"></script>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0&appId=155915046224033&autoLogAppEvents=1"
+        nonce="8n6FtJjM"></script>
 
     <script>window._user = '<%= user ? user._id : '' %>'</script>
 
@@ -58,7 +65,7 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=<%= process.env.ANALYTIC %>"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+        function gtag() { dataLayer.push(arguments); }
         gtag('js', new Date());
         gtag('config', '<%= process.env.ANALYTIC %>');
     </script>
@@ -66,6 +73,6 @@
     <% if (showAds) {%>
         <!-- Ads -->
         <%- include('../includes/ads/auto') -%>
-    <%} %>
+            <%} %>
 
 </head>

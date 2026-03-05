@@ -113,15 +113,15 @@ export default {
       this.totalFilesCount = 0
 
       // Group images by their immediate parent folder (chapter Name)
-      files.forEach(file => {
+      files.forEach((file) => {
         // filter for images only
-        if (!file.type.startsWith('image/')) return;
-        
+        if (!file.type.startsWith('image/')) { return }
+
         // webkitRelativePath usually looks like: "MangaName/Chapter1/01.jpg"
         const pathParts = file.webkitRelativePath.split('/')
         if (pathParts.length >= 2) {
           const chapterName = pathParts[pathParts.length - 2]
-          
+
           if (!this.groupedChapters[chapterName]) {
             this.groupedChapters[chapterName] = []
           }
@@ -151,7 +151,7 @@ export default {
       this.isUploading = true
       this.$nuxt.$loading.start()
 
-      // Sort chapters naturally 
+      // Sort chapters naturally
       chapterNames.sort((a, b) => a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' }))
 
       let successCount = 0
@@ -166,8 +166,8 @@ export default {
         const formData = new FormData()
         formData.append('story', this.form.story)
         formData.append('chapterName', chapterName)
-        
-        files.forEach(file => {
+
+        files.forEach((file) => {
           formData.append('images', file)
         })
 
@@ -177,7 +177,7 @@ export default {
               'Content-Type': 'multipart/form-data'
             }
           })
-          
+
           if (data.success) {
             successCount++
           } else {
@@ -192,7 +192,7 @@ export default {
       }
 
       this.$message.success(`${successCount} bölüm başarıyla eklendi, ${failCount} bölüm başarısız oldu.`)
-      
+
       // Cleanup UI
       this.isUploading = false
       this.$nuxt.$loading.finish()

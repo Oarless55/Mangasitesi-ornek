@@ -7,7 +7,8 @@ export default {
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
+      { hid: 'google-site-verification', name: 'google-site-verification', content: 'inccAK8aI3TKyVgTk9q8NcOm6lT1q5jm4WzcPqlQpbY' }
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
@@ -104,7 +105,7 @@ export default {
 
   router: {
     middleware: [],
-    extendRoutes (routes, resolve) {
+    extendRoutes(routes, resolve) {
       routes.forEach((route) => {
         if (route.name === 'create') {
           route.path = '/story/create'
@@ -125,7 +126,7 @@ export default {
   },
 
   build: {
-    extend (config, { loaders: { less } }) {
+    extend(config, { loaders: { less } }) {
       less.javascriptEnabled = true
     }
   },

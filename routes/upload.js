@@ -8,7 +8,7 @@ router.post('/upload/single', upload.single('image'), async ({ file, body }, res
   const path = await UploadController.uploadSingle(body.type, file, body.pathName || file.path)
   if (path) {
     return res.status(200).json({
-      msg: 'Thành công',
+      msg: 'Başarılı',
       success: true,
       data: path
     })
