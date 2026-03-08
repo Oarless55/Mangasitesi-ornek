@@ -19,7 +19,7 @@
             >
             <label class="pr" for="inputAvatar">
               <img
-                :src="form.avatar || 'https://i.imgur.com/59FtdGm.png'"
+                :src="form.avatar ? webAssets(form.avatar) : 'https://i.imgur.com/59FtdGm.png'"
                 alt=""
               >
               <a-icon type="plus-circle" />
@@ -258,8 +258,7 @@ export default {
       },
       rules: {
         avatar: [
-          { required: true, message: 'Kapak resmi zorunludur', trigger: 'blur' },
-          { type: 'url', message: 'Geçersiz kapak resmi URLsi', trigger: 'blur' }
+          { required: true, message: 'Kapak resmi zorunludur', trigger: 'blur' }
         ],
         title: [
           { required: true, message: 'Manga başlığı zorunludur', trigger: 'blur' }

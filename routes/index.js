@@ -12,8 +12,26 @@ router.get('/', async (req, res, next) => {
   let slider = []
   try {
     slider = require('../slider.js')
-  } catch (e) {}
+  } catch (e) { }
   res.render('index', { stories, topViews, slider })
 })
+
+router.get('/api/stories', async (req, res, next) => {
+  const { order = 'updatedAt', page = 1, limit = 8 } = req.query;
+  const StoryController = new storyController();
+  try {
+    const stories = await StoryController.getManyWithChapter(order, parseInt(page), parseInt(limit), 2);
+    // Add bunnyCDN to the story avatars exactly like controller does for other routes
+    const BunnyCDN = require('../modules/bunnyCDN');
+    stories.forEach(item => {
+      if (item.story) {
+        item.story.avatar = BunnyCDN.webAssets(item.story.avatar);
+      }
+    });
+    res.json(stories);
+  } catch (error) {
+    res.status(500).json({ error: 'Server err' });
+  }
+});
 
 module.exports = router

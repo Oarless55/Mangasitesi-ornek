@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "dev": "nodemon ./bin/www",
+    "dev": "node ./bin/www",
     "build:vue": "webpack",
     "watch:vue": "webpack --watch --progress",
     "stop": "pm2 stop web"

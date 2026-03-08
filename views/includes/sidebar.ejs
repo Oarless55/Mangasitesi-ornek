@@ -58,8 +58,10 @@
                                                                 </a>
                                                             </span>
                                                             <span class="post-on font-meta">
-                                                                <%= moment(chapter.createdAt).locale('tr').format('ll')
-                                                                    %>
+                                                                <%= new
+                                                                    Date(chapter.createdAt).toLocaleDateString('tr-TR',
+                                                                    { year: 'numeric' , month: 'long' , day: 'numeric'
+                                                                    }) %>
                                                             </span>
                                                         </div>
                                                         <%} %>

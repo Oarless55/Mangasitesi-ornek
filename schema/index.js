@@ -14,11 +14,7 @@ const server = new ApolloServer({
   async context({ req }) {
     console.log('[DEBUG] Incoming GraphQL Request. Bypassing token auth.')
     const token = req.headers.authorization || ''
-    let user = {
-      _id: 'LOCAL_DEV_BYPASS',
-      email: 'admin@madara.com',
-      role: 'admin'
-    } // FORCE LOCAL DEV ADMIN IDENTITY
+    let user = null;
 
     if (token) {
       const AuthController = new authController()

@@ -16,32 +16,45 @@ class UploadController {
       }/${time.getHours()}/${uuidv4()}.jpeg`
   }
 
-  /**
-   * @param type
-   * @param { { path: String } } file
-   * @param { String } path
-   * @returns {Promise<null>}
-   */
   async uploadSingle(type, file, path) {
     try {
       let { image, securePath } = await this._detachPath(type, file.path)
       let path1 = this._buildPath(path)
       const BunnyCDN = new bunnycdn(securePath)
 
-      try {
-        await BunnyCDN.upload(image, path1)
-      } catch (uploadError) {
-        console.log('CDN Upload Error (Check API Keys in .env):', uploadError.message)
-        Event.removeFile(file.path)
-        return null
+      // try {
+      //   await BunnyCDN.upload(image, path1)
+      // } catch (uploadError) {
+      //   console.log('CDN Upload Error (Check API Keys in .env):', uploadError.message)
+      //   Event.removeFile(file.path)
+      //   return null
+      // }
+
+      // LOCAL DEV FIX: Save the file locally since we are bypassing BunnyCDN
+      const fs = require('fs')
+      const nodePath = require('path')
+
+      const fullLocalPath = nodePath.join(__dirname, '..', 'public', 'upload', path1)
+      const dirName = nodePath.dirname(fullLocalPath)
+
+      // Ensure directory exists
+      if (!fs.existsSync(dirName)) {
+        fs.mkdirSync(dirName, { recursive: true })
       }
 
+      // Write the buffer to disk
+      fs.writeFileSync(fullLocalPath, image)
+
       Event.removeFile(file.path)
-      return bunnycdn.webAssets(path1, securePath)
+      // return bunnycdn.webAssets(path1, securePath)
+      console.log('--- LOCAL DEV BYPASS: Skipped bunnyCDN upload, saved locally to', fullLocalPath)
+
+      // Return path without leading slash so webAssets startsWith logic works correctly
+      return path1.startsWith('/') ? path1.substring(1) : path1
     } catch (e) {
       console.log('Upload Error:', e)
       Event.removeFile(file.path)
-      return null
+      return { _error: e.message || 'Unknown processing error' }
     }
   }
 

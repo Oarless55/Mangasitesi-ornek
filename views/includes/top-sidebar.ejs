@@ -81,8 +81,10 @@
                                                                     </div>
                                                                     <div class="post-on font-meta">
                                                                         <span>
-                                                                            <%= moment(story.updatedAt).locale('tr').format('ll')
-                                                                                %>
+                                                                            <%= new
+                                                                                Date(story.updatedAt).toLocaleDateString('tr-TR',
+                                                                                { year: 'numeric' , month: 'long' ,
+                                                                                day: 'numeric' }) %>
                                                                         </span>
                                                                     </div>
                                                                     <div class="chapter-item ">

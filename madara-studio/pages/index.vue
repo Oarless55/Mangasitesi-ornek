@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { SIGN_IN } from '~/schema/mutations/user'
 
 export default {
   name: 'LoginPage',
@@ -81,8 +82,46 @@ export default {
     }
   },
   mounted () {
-    // FORCE LOCAL ENVIRONMENT BYPASS: Immediately redirect from login panel
-    this.$router.push('/stories')
+  },
+  methods: {
+    submitForm () {
+      this.$refs.formRule.validate((valid) => {
+        if (valid) {
+          this.login()
+        } else {
+          this.$message.error('Bilgileri eksiksiz doldurun')
+          return false
+        }
+      })
+    },
+    async login () {
+      this.isLoading = true
+      try {
+        const {
+          data: {
+            signinUser: { token }
+          }
+        } = await this.$apollo.mutate({
+          mutation: SIGN_IN,
+          variables: this.form
+        })
+        const loginToken = 'Bearer ' + token
+        if (loginToken) {
+          await this.$apolloHelpers.onLogin(loginToken)
+          await this.$store.dispatch('user/getMyAccount')
+          this.$router.push('/stories')
+        }
+      } catch (e) {
+        if (e.message.includes('NOT_EXISTS')) {
+          this.$message.error('Böyle bir kullanıcı bulunamadı')
+        } else if (e.message.includes('WRONG_PASSWORD')) {
+          this.$message.error('Şifre hatalı')
+        } else {
+          this.$message.error('Giriş başarısız')
+        }
+      }
+      this.isLoading = false
+    }
   }
 }
 </script>

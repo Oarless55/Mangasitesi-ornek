@@ -134,7 +134,7 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   server: {
     port: process.env.PORT || 3001, // default: 3001
-    host: '0.0.0.0', // IPv4 fix
+    host: '127.0.0.1', // Enforced localhost for Windows
     timing: false
   }
 }

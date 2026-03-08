@@ -15,7 +15,7 @@ class StudioController {
   constructor(user) {
     // FORCE LOCAL DEVELOPMENT BYPASS: Always assume admin
     this.user = user || {
-      _id: 'LOCAL_DEV_BYPASS',
+      _id: 0,
       email: 'admin@madara.com',
       role: 'admin'
     }
@@ -217,11 +217,13 @@ class StudioController {
   }
 
   _getAvatarPath(url) {
+    if (!url) return ''
+    if (!url.startsWith('http')) return url // Support bypassed local paths
     try {
       const parsedUrl = new URL(url)
-      return parsedUrl.pathname
+      return parsedUrl.pathname.replace(/^(\/)/, '') // remove leading slash
     } catch (e) {
-      throw new ApolloError('Ảnh không hợp lệ', 'NOTIFY')
+      throw new ApolloError('Ảnh bìa không hợp lệ', 'NOTIFY')
     }
   }
 

@@ -43,25 +43,45 @@ class Index {
   }
 
   static webAssets(url, secure) {
-    if (/http|https/.test(url)) {
-      return url
-    }
     if (!url) {
       return ''
     }
+
+    // Parse the path out if it's already a full URL (to fix old CDN URLs saved in DB)
+    let parsedPath = url.replace(/^(\/)/, ''); // Remove leading slash FIRST
+    if (url.startsWith('http') || url.startsWith('https')) {
+      try {
+        const u = new URL(url);
+        // If it's a known CDN domain, extract the pathname
+        if (u.hostname.includes('b-cdn.net') || url.includes(process.env.CDN_DOMAIN)) {
+          parsedPath = u.pathname.replace(/^(\/)/, '');
+        } else {
+          // Leave external links alone (Imgur, etc)
+          return url;
+        }
+      } catch (e) {
+        return url;
+      }
+    }
+
+    // LOCAL DEV BYPASS: Return local endpoint url if image was saved locally
+    if (parsedPath.startsWith('temp/book/') || parsedPath.startsWith('story/')) {
+      return process.env.DOMAIN + '/upload/' + parsedPath;
+    }
+
     if (!secure) {
-      return process.env.CDN_DOMAIN_2 + url
+      return process.env.CDN_DOMAIN_2 + parsedPath;
     }
     if (process.env.SECURE_ENABLE === '1') {
-      const expires = Math.floor(new Date() / 1000) + 3600
-      const hashableBase = process.env.BUNNY_SECURITY_KEY + url + expires
+      const expires = Math.floor(new Date() / 1000) + 3600;
+      const hashableBase = process.env.BUNNY_SECURITY_KEY + parsedPath + expires;
       let token = Buffer.from(crypto.createHash('sha256').update(hashableBase).digest()).toString(
         'base64'
-      )
-      token = token.replace(/\n/g, '').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '')
-      return process.env.CDN_DOMAIN + url + '?token=' + token + '&expires=' + expires
+      );
+      token = token.replace(/\n/g, '').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
+      return process.env.CDN_DOMAIN + parsedPath + '?token=' + token + '&expires=' + expires;
     }
-    return process.env.CDN_DOMAIN + url
+    return process.env.CDN_DOMAIN + parsedPath;
   }
 }
 

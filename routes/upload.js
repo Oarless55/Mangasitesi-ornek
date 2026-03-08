@@ -6,7 +6,7 @@ const uploadController = require('../controller/upload.controller')
 router.post('/upload/single', upload.single('image'), async ({ file, body }, res, next) => {
   const UploadController = new uploadController()
   const path = await UploadController.uploadSingle(body.type, file, body.pathName || file.path)
-  if (path) {
+  if (path && (typeof path === 'string' || !path._error)) {
     return res.status(200).json({
       msg: 'Başarılı',
       success: true,
@@ -14,7 +14,7 @@ router.post('/upload/single', upload.single('image'), async ({ file, body }, res
     })
   } else {
     return res.status(400).json({
-      msg: 'Yükleme başarısız (CDN/Sunucu Hatası)',
+      msg: 'Yükleme başarısız (Ayrıntı: ' + (path && path._error ? path._error : 'Bilinmeyen Hata') + ')',
       success: false
     })
   }

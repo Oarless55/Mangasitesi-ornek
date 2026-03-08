@@ -7,7 +7,7 @@ class UserController {
   constructor(user) {
     // FORCE LOCAL ENVIRONMENT ADMIN
     this.user = user || {
-      _id: 'LOCAL_DEV_BYPASS',
+      _id: 0,
       email: 'admin@madara.com',
       role: 'admin'
     }

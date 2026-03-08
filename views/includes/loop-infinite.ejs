@@ -35,13 +35,14 @@
                         <div class="list-chapter">
                             <div v-for="(chapter, index2) in item.chapters" :key="index2" class="chapter-item">
                                 <span class="chapter font-meta">
-                                    <a href="/truyen-tranh/thieu-nien-rac-roi.11/bonus-9-tro-choi-ma-soi.284"
+                                    <a :href="`/truyen-tranh/${item.story.slug}.${item.story._id}/${chapter.slug}.${chapter._id}`"
                                         class="btn-link">
                                         {{ chapter.name }}
                                     </a>
                                 </span>
                                 <span class="post-on font-meta">
-                                    {{ moment(chapter.createdAt).locale('tr').format('ll') }}
+                                    {{ new Date(chapter.createdAt).toLocaleDateString('tr-TR', { year: 'numeric', month:
+                                    'short', day: 'numeric' }) }}
                                 </span>
                             </div>
                         </div>
