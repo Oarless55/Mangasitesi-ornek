@@ -69,19 +69,23 @@ class Index {
       return process.env.DOMAIN + '/upload/' + parsedPath;
     }
 
+    const domain2 = process.env.CDN_DOMAIN_2.endsWith('/') ? process.env.CDN_DOMAIN_2 : process.env.CDN_DOMAIN_2 + '/';
+    const domain1 = process.env.CDN_DOMAIN.endsWith('/') ? process.env.CDN_DOMAIN : process.env.CDN_DOMAIN + '/';
+
     if (!secure) {
-      return process.env.CDN_DOMAIN_2 + parsedPath;
+      return domain2 + parsedPath;
     }
     if (process.env.SECURE_ENABLE === '1') {
       const expires = Math.floor(new Date() / 1000) + 3600;
-      const hashableBase = process.env.BUNNY_SECURITY_KEY + parsedPath + expires;
+      // Notice the security key hashing logic on bunnyCDN usually requires a leading slash in the path string
+      const hashableBase = process.env.BUNNY_SECURITY_KEY + '/' + parsedPath + expires;
       let token = Buffer.from(crypto.createHash('sha256').update(hashableBase).digest()).toString(
         'base64'
       );
       token = token.replace(/\n/g, '').replace(/\+/g, '-').replace(/\//g, '_').replace(/=/g, '');
-      return process.env.CDN_DOMAIN + parsedPath + '?token=' + token + '&expires=' + expires;
+      return domain1 + parsedPath + '?token=' + token + '&expires=' + expires;
     }
-    return process.env.CDN_DOMAIN + parsedPath;
+    return domain1 + parsedPath;
   }
 }
 
