@@ -43,7 +43,7 @@ export default ({ store, redirect }) => {
 
     // See https://www.apollographql.com/docs/link/links/http.html#options
     httpLinkOptions: {
-      credentials: 'same-origin'
+      credentials: 'include'
     },
     // You can use `wss` for secure connection (recommended in production)
     // Use `null` to disable subscriptions
