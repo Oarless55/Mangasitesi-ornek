@@ -13,6 +13,8 @@ const app = express()
 const allowedOrigins = [
   'https://ana-manga-siten.com',
   'https://admin-studio-siten.com',
+  'https://mangacephesi.com',
+  'https://www.mangacephesi.com',
   'http://localhost:3000',
   'http://localhost:3001', // Admin Studio
   'http://127.0.0.1:3000',
@@ -49,6 +51,7 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 // app.use(cors())
 app.use(express.static(path.join(__dirname, 'public')))
+app.use('/upload', express.static(path.join(__dirname, 'public/upload')))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))

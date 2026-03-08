@@ -65,8 +65,9 @@ class Index {
     }
 
     // LOCAL DEV BYPASS: Return local endpoint url if image was saved locally
-    if (parsedPath.startsWith('temp/book/') || parsedPath.startsWith('story/')) {
-      return process.env.DOMAIN + '/upload/' + parsedPath;
+    if (parsedPath.startsWith('temp/book/') || parsedPath.startsWith('story/') || parsedPath.startsWith('/temp/') || parsedPath.startsWith('/story/')) {
+      const cleanPath = parsedPath.replace(/^\//, ''); // Ensure no double slash after /upload/
+      return process.env.DOMAIN + '/upload/' + cleanPath;
     }
 
     const domain2 = process.env.CDN_DOMAIN_2.endsWith('/') ? process.env.CDN_DOMAIN_2 : process.env.CDN_DOMAIN_2 + '/';
