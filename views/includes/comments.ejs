@@ -1,0 +1,79 @@
+<div id="custom-discussion" class="custom-discussion-wrapper">
+    <!-- Reactions Section -->
+    <div class="reactions-container">
+        <h3 class="reactions-title">Bu içeriğe tepki ver</h3>
+        <p class="reactions-subtitle"><span id="total-reactions-count">0</span> tepki</p>
+
+        <div class="reaction-buttons">
+            <button class="reaction-btn" data-type="1">
+                <span class="emoji">👍</span>
+                <span class="label">Beğendim</span>
+                <span class="count">0</span>
+            </button>
+            <button class="reaction-btn" data-type="2">
+                <span class="emoji">😡</span>
+                <span class="label">Sinir Bozucu</span>
+                <span class="count">0</span>
+            </button>
+            <button class="reaction-btn" data-type="3">
+                <span class="emoji">😂</span>
+                <span class="label">Mükemmel</span>
+                <span class="count">0</span>
+            </button>
+            <button class="reaction-btn" data-type="4">
+                <span class="emoji">😲</span>
+                <span class="label">Şaşırtıcı</span>
+                <span class="count">0</span>
+            </button>
+            <button class="reaction-btn" data-type="5">
+                <span class="emoji">😔</span>
+                <span class="label">Sakin Olmalıyım</span>
+                <span class="count">0</span>
+            </button>
+            <button class="reaction-btn" data-type="6">
+                <span class="emoji">😞</span>
+                <span class="label">Bölüm Bitti</span>
+                <span class="count">0</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments-container">
+        <div class="comments-header">
+            <h3 class="comments-title">Yorumlar (<span id="total-comments-count">0</span>)</h3>
+            <div class="comments-sorting">
+                <button class="sort-btn active" data-sort="newest">En Yeni</button>
+                <button class="sort-btn" data-sort="best">En İyi</button>
+                <button class="sort-btn" data-sort="oldest">En Eski</button>
+            </div>
+        </div>
+
+        <div class="comments-body">
+            <div id="comments-list" class="comments-list">
+                <!-- Comments will be injected here via JS -->
+                <p class="empty-comments-message">Henüz yorum yok. İlk sen yaz!</p>
+            </div>
+
+            <div class="comment-input-area">
+                <div class="comment-user-avatar">
+                    <img src="/images/default-avatar.png" alt="User Avatar" class="avatar-img">
+                    <button class="change-avatar-btn">Değiştir</button>
+                </div>
+                <div class="comment-input-fields">
+                    <form id="comment-form">
+                        <input type="hidden" id="story-id" value="<%= story._id %>">
+                        <textarea id="comment-content" placeholder="Düşüncelerini paylaş..." rows="3"
+                            required></textarea>
+                        <div class="comment-form-actions">
+                            <button type="submit" class="submit-comment-btn">Gönder</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="/css/comments.css">
+<script src="/js/comments.js" defer></script>

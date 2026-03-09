@@ -80,6 +80,8 @@ app.use(storyRouter)
 app.use(categoryRouter)
 app.use(aboutRoutes)
 app.use('/settings', require('./routes/settings'))
+app.use('/api/comments', require('./routes/comment'))
+app.use('/api/reactions', require('./routes/reaction'))
 
 app.use(function (req, res) {
   return res.status(404).render('error')

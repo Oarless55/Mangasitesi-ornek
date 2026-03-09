@@ -59,20 +59,7 @@
                                                                                             <% } %>
                                                                 </div>
                                                                 <!-- </div> -->
-                                                                <div id="manga-discussion"
-                                                                    class="c-blog__heading style-2 font-heading">
-                                                                    <i class="ion-ios-star"></i>
-                                                                    <h4>TARTIŞMA</h4>
-                                                                </div>
-                                                                <div class="manga-discussion wrapper">
-                                                                    <div id="comments" class="comments-area">
-                                                                        <div id="respond" class="comment-respond">
-                                                                            <div class="fb-comments"
-                                                                                data-href="<%= process.env.DOMAIN %>/truyen-tranh/<%= story.slug %>.<%= story._id%>"
-                                                                                data-width="" data-numposts="5"></div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                <%- include('includes/comments') -%>
                                                             </div>
                                                             <related-manga></related-manga>
                                                         </div>
