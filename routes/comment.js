@@ -48,11 +48,11 @@ router.post('/', async (req, res) => {
         // Check global user if logged in (from cookies/session based on app.js and auth middlewares)
         if (req.user && req.user._id) {
             userId = req.user._id;
-        } else if (req.cookies && req.cookies.token) {
+        } else if (req.cookies && req.cookies._token) {
             // Fallback for simple token extraction if standard middleware isn't here
             try {
                 const jwt = require('jsonwebtoken');
-                const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+                const decoded = jwt.verify(req.cookies._token, process.env.SECRET);
                 userId = decoded._id;
             } catch (e) { }
         }
@@ -87,10 +87,10 @@ router.post('/like', async (req, res) => {
 
         if (req.user && req.user._id) {
             userId = req.user._id;
-        } else if (req.cookies && req.cookies.token) {
+        } else if (req.cookies && req.cookies._token) {
             try {
                 const jwt = require('jsonwebtoken');
-                const decoded = jwt.verify(req.cookies.token, process.env.JWT_SECRET);
+                const decoded = jwt.verify(req.cookies._token, process.env.SECRET);
                 userId = decoded._id;
             } catch (e) { }
         }
