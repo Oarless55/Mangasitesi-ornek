@@ -13,7 +13,7 @@
                         <div class="main-navigation_wrap">
                             <div class="wrap_branding">
                                 <a href="/" aria-current="page" class="logo _exact _on" title="<%= process.env.APP %>">
-                                    <img class="logo-svg" src="/images/logo.svg" alt="">
+                                    <img class="logo-svg" src="<%= process.env.LOGO %>" alt="<%= process.env.APP %>">
                                 </a>
                             </div>
 
@@ -36,7 +36,7 @@
 
                             <div class="search-navigation search-sidebar">
                                 <div id="manga-search-3"
-                                     class="widget col-12 col-md-12   default no-icon  manga-widget widget-manga-search">
+                                    class="widget col-12 col-md-12   default no-icon  manga-widget widget-manga-search">
                                     <div class="widget__inner manga-widget widget-manga-search__inner c-widget-wrap">
                                         <div class="widget-content">
                                             <div class="search-navigation__wrap">
@@ -48,13 +48,13 @@
                                                         <ul class="search-main-menu">
                                                             <li>
                                                                 <form class="manga-search-form search-form ajax"
-                                                                      action="/tim-kiem"
-                                                                >
-                                                                    <input class="manga-search-field ui-autocomplete-input"
-                                                                           type="text" placeholder="Ara..."
-                                                                           name="keyword" value="" autocomplete="off">
+                                                                    action="/tim-kiem">
+                                                                    <input
+                                                                        class="manga-search-field ui-autocomplete-input"
+                                                                        type="text" placeholder="Ara..." name="keyword"
+                                                                        value="" autocomplete="off">
                                                                     <input type="hidden" name="post_type"
-                                                                           value="wp-manga">
+                                                                        value="wp-manga">
                                                                     <i class="icon ion-ios-search"></i>
                                                                     <div class="loader-inner ball-clip-rotate-multiple">
                                                                         <div></div>
@@ -63,8 +63,7 @@
                                                                     <input type="submit" value="Ara">
                                                                     <ul id="ui-id-2" tabindex="0"
                                                                         class="ui-menu ui-widget ui-widget-content ui-autocomplete ui-front"
-                                                                        style="display: none;"
-                                                                    >
+                                                                        style="display: none;">
                                                                     </ul>
                                                                 </form>
                                                             </li>
@@ -102,17 +101,18 @@
                 <div class="c-user_item">
                     <div class="c-user_avatar">
                         <div class="c-user_avatar-image">
-                            <img alt="<%= user.name %>" src="<%= user.avatar %>" height="50" width="50" class="avatar avatar-50 photo">
+                            <img alt="<%= user.name %>" src="<%= user.avatar %>" height="50" width="50"
+                                class="avatar avatar-50 photo">
                         </div>
                     </div>
                 </div>
-            <% } else { %>
-                <!-- Button trigger modal -->
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#form-login"
-                   class="btn-active-modal">Giriş Yap</a>
-                <a href="javascript:void(0)" data-toggle="modal" data-target="#form-sign-up"
-                   class="btn-active-modal">Kayıt Ol</a>
-            <% } %>
+                <% } else { %>
+                    <!-- Button trigger modal -->
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#form-login"
+                        class="btn-active-modal">Giriş Yap</a>
+                    <a href="javascript:void(0)" data-toggle="modal" data-target="#form-sign-up"
+                        class="btn-active-modal">Kayıt Ol</a>
+                    <% } %>
 
         </div>
         <nav class="off-menu">
@@ -144,20 +144,20 @@
                                     <%= category.name %>
                                 </a>
                             </li>
-                        <% } %>
-                        <li id="menu-item-72" class="menu-item menu-item-has-children parent">
-                            <a href="javascript:void(0)">DAHA FAZLA</a>
-                            <ul class="sub-menu">
-                                <% for (let category of categories) { %>
-                                    <li class="menu-item">
-                                        <a href="/the-loai/<%= category.slug %>.<%= category._id %>">
-                                            <%= category.name %>
-                                        </a>
-                                    </li>
-                                <% } %>
-                            </ul>
-                        </li>
-                            <i class="mobile-icon icon ion-md-more"></i>
+                            <% } %>
+                                <li id="menu-item-72" class="menu-item menu-item-has-children parent">
+                                    <a href="javascript:void(0)">DAHA FAZLA</a>
+                                    <ul class="sub-menu">
+                                        <% for (let category of categories) { %>
+                                            <li class="menu-item">
+                                                <a href="/the-loai/<%= category.slug %>.<%= category._id %>">
+                                                    <%= category.name %>
+                                                </a>
+                                            </li>
+                                            <% } %>
+                                    </ul>
+                                </li>
+                                <i class="mobile-icon icon ion-md-more"></i>
                     </ul>
                 </div>
 
@@ -168,7 +168,7 @@
                             <div class="c-user_avatar">
                                 <div class="c-user_avatar-image">
                                     <img alt="<%= user.name %>" src="<%= user.avatar %>" height="50" width="50"
-                                         class="avatar avatar-50 photo">
+                                        class="avatar avatar-50 photo">
                                 </div>
                                 <ul class="c-user_menu">
                                     <li><a href="/settings/account">Genel Ayarlar</a></li>
@@ -176,13 +176,13 @@
                                 </ul>
                             </div>
                         </div>
-                    <% } else { %>
-                        <!-- Button trigger modal -->
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#form-login"
-                           class="btn-active-modal">Giriş Yap</a>
-                        <a href="javascript:void(0)" data-toggle="modal" data-target="#form-sign-up"
-                           class="btn-active-modal">Kayıt Ol</a>
-                    <% } %>
+                        <% } else { %>
+                            <!-- Button trigger modal -->
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#form-login"
+                                class="btn-active-modal">Giriş Yap</a>
+                            <a href="javascript:void(0)" data-toggle="modal" data-target="#form-sign-up"
+                                class="btn-active-modal">Kayıt Ol</a>
+                            <% } %>
                 </div>
             </div>
 

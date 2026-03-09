@@ -22,35 +22,16 @@ class UploadController {
       let path1 = this._buildPath(path)
       const BunnyCDN = new bunnycdn(securePath)
 
-      // try {
-      //   await BunnyCDN.upload(image, path1)
-      // } catch (uploadError) {
-      //   console.log('CDN Upload Error (Check API Keys in .env):', uploadError.message)
-      //   Event.removeFile(file.path)
-      //   return null
-      // }
-
-      // LOCAL DEV FIX: Save the file locally since we are bypassing BunnyCDN
-      const fs = require('fs')
-      const nodePath = require('path')
-
-      const fullLocalPath = nodePath.join(__dirname, '..', 'public', 'upload', path1)
-      const dirName = nodePath.dirname(fullLocalPath)
-
-      // Ensure directory exists
-      if (!fs.existsSync(dirName)) {
-        fs.mkdirSync(dirName, { recursive: true })
+      try {
+        await BunnyCDN.upload(image, path1)
+      } catch (uploadError) {
+        console.log('CDN Upload Error (Check API Keys in .env):', uploadError.message)
+        Event.removeFile(file.path)
+        return null
       }
 
-      // Write the buffer to disk
-      fs.writeFileSync(fullLocalPath, image)
-
       Event.removeFile(file.path)
-      // return bunnycdn.webAssets(path1, securePath)
-      console.log('--- LOCAL DEV BYPASS: Skipped bunnyCDN upload, saved locally to', fullLocalPath)
-
-      // Return path without leading slash so webAssets startsWith logic works correctly
-      return path1.startsWith('/') ? path1.substring(1) : path1
+      return bunnycdn.webAssets(path1, securePath)
     } catch (e) {
       console.log('Upload Error:', e)
       Event.removeFile(file.path)

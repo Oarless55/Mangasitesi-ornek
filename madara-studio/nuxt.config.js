@@ -134,7 +134,17 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   server: {
     port: process.env.PORT || 3001, // default: 3001
-    host: '127.0.0.1', // Enforced localhost for Windows
+    host: '0.0.0.0', // Allow external connections if needed
     timing: false
+  },
+
+  env: {
+    BACKEND_DOMAIN: process.env.BACKEND_DOMAIN,
+    GRAPHQL_SERVER: process.env.GRAPHQL_SERVER
+  },
+
+  publicRuntimeConfig: {
+    BACKEND_DOMAIN: process.env.BACKEND_DOMAIN,
+    GRAPHQL_SERVER: process.env.GRAPHQL_SERVER
   }
 }

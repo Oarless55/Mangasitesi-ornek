@@ -335,8 +335,9 @@ export default {
           formData.append('pathName', this.form._id ? `story/${this.form._id}/avatar` : 'temp/book')
           formData.append('type', 'story-avatar')
           this.$nuxt.$loading.start()
+          const apiUrl = (this.$config && this.$config.BACKEND_DOMAIN) ? this.$config.BACKEND_DOMAIN : process.env.BACKEND_DOMAIN
           this.$axios
-            .post(process.env.BACKEND_DOMAIN + '/upload/single', formData)
+            .post(apiUrl + '/upload/single', formData)
             .then(({ data }) => {
               this.form.avatar = data.data
               this.visible = false

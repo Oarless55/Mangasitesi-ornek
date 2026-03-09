@@ -64,11 +64,7 @@ class Index {
       }
     }
 
-    // LOCAL DEV BYPASS: Return local endpoint url if image was saved locally
-    if (parsedPath.startsWith('temp/book/') || parsedPath.startsWith('story/') || parsedPath.startsWith('/temp/') || parsedPath.startsWith('/story/')) {
-      const cleanPath = parsedPath.replace(/^\//, ''); // Ensure no double slash after /upload/
-      return process.env.DOMAIN + '/upload/' + cleanPath;
-    }
+    // Code bypassing CDN disabled to allow live server to construct absolute URLs
 
     const domain2 = process.env.CDN_DOMAIN_2.endsWith('/') ? process.env.CDN_DOMAIN_2 : process.env.CDN_DOMAIN_2 + '/';
     const domain1 = process.env.CDN_DOMAIN.endsWith('/') ? process.env.CDN_DOMAIN : process.env.CDN_DOMAIN + '/';
