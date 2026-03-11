@@ -11,13 +11,13 @@
                             <meta content="1" property="position">
                         </li>
                         <li property="itemListElement" typeof="ListItem">
-                            <a href="/truyen-tranh">
+                            <a href="/manga">
                                 <span property="name">Manga</span>
                             </a>
                             <meta content="2" property="position">
                         </li>
                         <li property="itemListElement" typeof="ListItem">
-                            <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>">
+                            <a href="/manga/<%= story.slug %>.<%= story._id %>">
                                 <span property="name">
                                     <%= story.title %>
                                 </span>
@@ -61,11 +61,11 @@
             <div class="nav-links">
                 <i class="mobile-nav-btn icon ion-md-menu"></i>
                 <div class="nav-previous">
-                    <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>" title="Önceki"
+                    <a href="/manga/<%= story.slug %>.<%= story._id %>" title="Önceki"
                         class="btn prev_page">Önceki</a>
                 </div>
                 <div class="nav-next">
-                    <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>" title="Sonraki" disabled="disabled"
+                    <a href="/manga/<%= story.slug %>.<%= story._id %>" title="Sonraki" disabled="disabled"
                         class="btn next_page">Sonraki</a>
                 </div>
             </div>

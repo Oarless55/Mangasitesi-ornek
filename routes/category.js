@@ -3,7 +3,12 @@ const router = express.Router()
 
 const categoryController = require('../controller/category.controller')
 
-router.get('/the-loai/:slug.:id', async ({ params, query }, res, next) => {
+// Legacy redirect
+router.get('/the-loai/:slug.:id', (req, res) => {
+  res.redirect(301, `/turler/${req.params.slug}.${req.params.id}`)
+})
+
+router.get('/turler/:slug.:id', async ({ params, query }, res, next) => {
   const CategoryController = new categoryController()
   const category = await CategoryController.getOne(parseInt(params.id))
   if (!category) {

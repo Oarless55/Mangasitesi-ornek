@@ -3,7 +3,7 @@
         <ul class="main version-chap no-volumn">
             <% for (let chapter of chapters) {%>
                 <li class="wp-manga-chapter <%= chapter.avatar ? '_has_avatar' : '' %>">
-                    <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>/<%= chapter.slug %>.<%= chapter._id %>">
+                    <a href="/manga/<%= story.slug %>.<%= story._id %>/<%= chapter.slug %>.<%= chapter._id %>">
                         <% if (chapter.avatar) {%>
                             <div class="chapter-avatar">
                                 <img src="<%= webAssets(chapter.avatar) %>" alt="<%= chapter.name %>">

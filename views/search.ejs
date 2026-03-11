@@ -1,7 +1,6 @@
 <html lang="en-US">
 
-<%- include( 'includes/head' , { title: 'Arama: ' + keyword , description: '❶❶✅ ' + keyword +' Türkçe tam çeviri, en iyi
-    kalite ' + process.env.DOMAIN,
+<%- include( 'includes/head' , { title: 'Arama: ' + keyword , description: '❶❶✅ ' + keyword +' Türkçe tam çeviri, en iyi kalite ' + process.env.DOMAIN,
                 seo_image: process.env.DOMAIN + ' /images/share.jpg', showAds: true } ); -%>
 
 
@@ -12,7 +11,7 @@
                 <%- include('includes/header') -%>
 
                     <div class="site-content">
-                        <%- include('includes/genres-block', { breadcrumb: { link: `/tim-kiem?keyword=` + keyword,
+                        <%- include('includes/genres-block', { breadcrumb: { link: `/ara?keyword=` + keyword,
                             name: 'Arama' } }) -%>
                             <div class="c-page-content style-1">
                                 <div class="content-area">
@@ -50,21 +49,21 @@
                                                                             <li
                                                                                 class="<%= order === 'updatedAt' || !order ? 'active' : '' %>">
                                                                                 <a
-                                                                                    href="/tim-kiem?keyword=<%= keyword %>&order=updatedAt">
+                                                                                    href="/ara?keyword=<%= keyword %>&order=updatedAt">
                                                                                     En Yeni
                                                                                 </a>
                                                                             </li>
                                                                             <li
                                                                                 class="<%= order === 'views' ? 'active' : '' %>">
                                                                                 <a
-                                                                                    href="/tim-kiem?keyword=<%= keyword %>&order=views">
+                                                                                    href="/ara?keyword=<%= keyword %>&order=views">
                                                                                     Görüntülenme
                                                                                 </a>
                                                                             </li>
                                                                             <li
                                                                                 class="<%= order === 'rating' ? 'active' : '' %>">
                                                                                 <a
-                                                                                    href="/tim-kiem?keyword=<%= keyword %>&orde=rating">
+                                                                                    href="/ara?keyword=<%= keyword %>&order=rating">
                                                                                     Değerlendirme
                                                                                 </a>
                                                                             </li>

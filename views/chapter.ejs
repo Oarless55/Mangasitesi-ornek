@@ -73,7 +73,7 @@
                                                                 <div id="comments" class="comments-area">
                                                                     <div id="respond" class="comment-respond">
                                                                         <div class="fb-comments"
-                                                                            data-href="<%= process.env.DOMAIN ;%>/truyen-tranh/<%= story.slug ;%>.<%= story._id ;%>"
+                                                                            data-href="<%= process.env.DOMAIN ;%>/manga/<%= story.slug ;%>.<%= story._id ;%>"
                                                                             data-width="" data-numposts="5"></div>
                                                                     </div>
                                                                 </div>
@@ -104,7 +104,7 @@
 
             <script>
                 $(document).ready(() => {
-                    const story = '/truyen-tranh/<%= story.slug ;%>.<%= story._id ;%>/'
+                    const story = '/manga/<%= story.slug ;%>.<%= story._id ;%>/'
                     document.querySelectorAll('.single-chapter-select').forEach((element) => {
                         element.addEventListener('change', ({ target }) => {
                             const newChapter = target.options[target.selectedIndex].value

@@ -5,7 +5,18 @@ const storyController = require('../controller/story.controller')
 const chapterController = require('../controller/chapter.controller')
 const BunnyCDN = require('../modules/bunnyCDN')
 
-router.get('/truyen-tranh/:slug.:id', async ({ params }, res) => {
+// Legacy redirects
+router.get('/truyen-tranh/:slug.:id', (req, res) => {
+  res.redirect(301, `/manga/${req.params.slug}.${req.params.id}`)
+})
+router.get('/truyen-tranh', (req, res) => {
+  res.redirect(301, '/manga')
+})
+router.get('/tim-kiem', (req, res) => {
+  res.redirect(301, `/ara?keyword=${req.query.keyword || ''}`)
+})
+
+router.get('/manga/:slug.:id', async ({ params }, res) => {
   const StoryController = new storyController()
   const story = await StoryController.getOne(parseInt(params.id))
   if (!story) {
@@ -20,7 +31,7 @@ router.get('/truyen-tranh/:slug.:id', async ({ params }, res) => {
 })
 
 router.get(
-  '/truyen-tranh/:slug.:id/:chap.:chapid',
+  '/manga/:slug.:id/:chap.:chapid',
   async ({ params }, res, next) => {
     const StoryController = new storyController()
     const ChapterController = new chapterController()
@@ -44,7 +55,7 @@ router.get(
   }
 )
 
-router.get('/truyen-tranh', async ({ query }, res, next) => {
+router.get('/manga', async ({ query }, res, next) => {
   const StoryController = new storyController()
   const [count, stories] = await Promise.all([
     StoryController.count(),
@@ -57,7 +68,7 @@ router.get('/truyen-tranh', async ({ query }, res, next) => {
   })
 })
 
-router.get('/tim-kiem', async ({ query }, res, next) => {
+router.get('/ara', async ({ query }, res, next) => {
   const keyword = query.keyword
   if (!keyword) {
     return res.redirect('/404')

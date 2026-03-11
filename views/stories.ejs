@@ -12,7 +12,7 @@
                 <%- include('includes/header') -%>
 
                     <div class="site-content">
-                        <%- include('includes/genres-block', { breadcrumb: { link: `/truyen-tranh`, name: 'Manga' } })
+                        <%- include('includes/genres-block', { breadcrumb: { link: `/manga`, name: 'Manga' } })
                             -%>
                             <div class="c-page-content style-1">
                                 <div class="content-area">
@@ -50,19 +50,19 @@
                                                                                 <li
                                                                                     class="<%= order === 'updatedAt' || !order ? 'active' : '' %>">
                                                                                     <a
-                                                                                        href="/truyen-tranh?order=updatedAt">
+                                                                                        href="/manga?order=updatedAt">
                                                                                         En Yeni
                                                                                     </a>
                                                                                 </li>
                                                                                 <li
                                                                                     class="<%= order === 'views' ? 'active' : '' %>">
-                                                                                    <a href="/truyen-tranh?order=views">
+                                                                                    <a href="/manga?order=views">
                                                                                         Görüntülenme
                                                                                     </a>
                                                                                 </li>
                                                                                 <li
                                                                                     class="<%= order === 'rating' ? 'active' : '' %>">
-                                                                                    <a href="/truyen-tranh?orde=rating">
+                                                                                    <a href="/manga?order=rating">
                                                                                         Değerlendirme
                                                                                     </a>
                                                                                 </li>
@@ -75,8 +75,7 @@
                                                                     <div role="tabpanel" class="c-tabs-item">
                                                                         <%- include('includes/loop-content', { stories
                                                                             }) -%>
-                                                                            <loop-infinite :endpoint="'/api/stories'"
-                                                                                order="'<%= order || 'updatedAt' %>'"></loop-infinite>
+                                                                            <loop-infinite order="'<%= order || 'updatedAt' %>'" :endpoint="'/api/stories'"></loop-infinite>
                                                                     </div>
                                                                 </div>
                                                             </div>

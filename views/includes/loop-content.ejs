@@ -8,7 +8,7 @@
                             <div class="col-12 col-md-6 badge-pos-1">
                                 <div class="page-item-detail text">
                                     <div class="item-thumb hover-details c-image-hover">
-                                        <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>"
+                                        <a href="/manga/<%= story.slug %>.<%= story._id %>"
                                             title="<%= story.title %>">
                                             <% const avatar=webAssets(story.avatar) %>
                                                 <img width="110" height="150" src="<%= avatar %>"
@@ -23,7 +23,7 @@
                                                         <%= story.badge %>
                                                     </span>
                                                     <%} %>
-                                                        <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>">
+                                                        <a href="/manga/<%= story.slug %>.<%= story._id %>">
                                                             <%= story.title %>
                                                         </a>
                                             </h3>
@@ -42,7 +42,7 @@
                                             <% for (let chapter of chapters) { %>
                                                 <div class="chapter-item ">
                                                     <span class="chapter font-meta">
-                                                        <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>/<%= chapter.slug %>.<%= chapter._id %>"
+                                                        <a href="/manga/<%= story.slug %>.<%= story._id %>/<%= chapter.slug %>.<%= chapter._id %>"
                                                             class="btn-link">
                                                             <%= chapter.name %>
                                                         </a>

@@ -46,12 +46,12 @@ class UserController {
       throw new ApolloError('Mật khẩu quá ngắn', 'HAS_MESS')
     }
 
-    return bcrypt.hash(newPass, 10, (err, hash) => {
-      if (err) {
-        throw new ApolloError('Đã xảy ra lỗi', 'HAS_MESS')
-      }
+    try {
+      const hash = await bcrypt.hash(newPass, 10)
       return this._changePassword(hash)
-    })
+    } catch (err) {
+      throw new ApolloError('Şifre oluşturulurken bir hata oluştu', 'HAS_MESS')
+    }
   }
 
   // đổi password

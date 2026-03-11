@@ -48,7 +48,7 @@
                                                         <ul class="search-main-menu">
                                                             <li>
                                                                 <form class="manga-search-form search-form ajax"
-                                                                    action="/tim-kiem">
+                                                                    action="/ara">
                                                                     <input
                                                                         class="manga-search-field ui-autocomplete-input"
                                                                         type="text" placeholder="Ara..." name="keyword"
@@ -140,7 +140,7 @@
                     <ul class="sub-nav_list list-inline second-menu">
                         <% for (let category of categories.slice(0, 6)) { %>
                             <li class="menu-item">
-                                <a href="/the-loai/<%= category.slug %>.<%= category._id %>">
+                                <a href="/turler/<%= category.slug %>.<%= category._id %>">
                                     <%= category.name %>
                                 </a>
                             </li>
@@ -150,7 +150,7 @@
                                     <ul class="sub-menu">
                                         <% for (let category of categories) { %>
                                             <li class="menu-item">
-                                                <a href="/the-loai/<%= category.slug %>.<%= category._id %>">
+                                                <a href="/turler/<%= category.slug %>.<%= category._id %>">
                                                     <%= category.name %>
                                                 </a>
                                             </li>

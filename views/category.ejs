@@ -1,7 +1,6 @@
 <html lang="en-US">
 
-<%- include( 'includes/head' , { title: category.name, description: '❶❶✅ ' + category.name +' türü için Türkçe tam
-    çeviri, en iyi kalite ' + process.env.DOMAIN,
+<%- include( 'includes/head' , { title: category.name, description: '❶❶✅ ' + category.name +' türü için Türkçe tam çeviri, en iyi kalite ' + process.env.DOMAIN,
             seo_image: process.env.DOMAIN + ' /images/share.jpg', showAds: true } ); -%>
 
 
@@ -12,8 +11,7 @@
                 <%- include('includes/header') -%>
 
                     <div class="site-content">
-                        <%- include('includes/genres-block', { breadcrumb: { link:
-                            `/the-loai/${category.slug}.${category._id}`, name: category.name } }) -%>
+                        <%- include('includes/genres-block', { breadcrumb: { link: `/turler/${category.slug}.${category._id}`, name: category.name } }) -%>
                             <div class="c-page-content style-1">
                                 <div class="content-area">
                                     <div class="container">

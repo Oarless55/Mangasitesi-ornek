@@ -12,13 +12,13 @@
                                 <meta content="1" property="position">
                             </li>
                             <li property="itemListElement" typeof="ListItem">
-                                <a href="/truyen-tranh">
+                                <a href="/manga">
                                     <span property="name">Manga</span>
                                 </a>
                                 <meta content="2" property="position">
                             </li>
                             <li property="itemListElement" typeof="ListItem">
-                                <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>">
+                                <a href="/manga/<%= story.slug %>.<%= story._id %>">
                                     <span property="name">
                                         <%= story.title %>
                                     </span>
@@ -44,7 +44,7 @@
                 </div>
                 <div class="tab-summary ">
                     <div class="summary_image">
-                        <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>">
+                        <a href="/manga/<%= story.slug %>.<%= story._id %>">
                             <img width="193" height="278" src="<%= webAssets(story.avatar) %>"
                                 class="img-responsive effect-fade" alt="<%= story.title %>"
                                 sizes="(max-width: 193px) 100vw, 193px" />
@@ -140,7 +140,7 @@
                                         <div class="summary-content">
                                             <div class="genres-content">
                                                 <% for (let category of story.categories) {%>
-                                                    <a href="/the-loai/<%= category.slug %>.<%= category._id %>"
+                                                    <a href="/turler/<%= category.slug %>.<%= category._id %>"
                                                         rel="tag">
                                                         <%= category.name %>
                                                     </a>
@@ -213,13 +213,13 @@
                             <% if (chapters.length) {%>
                                 <div id="init-links" class="nav-links">
                                     <% const firstChapter=chapters[chapters.length - 1] %>
-                                        <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>/<%= firstChapter.slug %>.<%= firstChapter._id %>"
+                                        <a href="/manga/<%= story.slug %>.<%= story._id %>/<%= firstChapter.slug %>.<%= firstChapter._id %>"
                                             class="c-btn c-btn_style-1">
                                             İlk Bölüm
                                         </a>
                                         <% if (chapters.length> 1) {%>
                                             <% const lastChapter=chapters[0] %>
-                                                <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>/<%= lastChapter.slug %>.<%= lastChapter._id %>"
+                                                <a href="/manga/<%= story.slug %>.<%= story._id %>/<%= lastChapter.slug %>.<%= lastChapter._id %>"
                                                     class="c-btn c-btn_style-1">
                                                     Son Bölüm
                                                 </a>

@@ -90,4 +90,28 @@ app.use(function (req, res) {
 if (process.env.NODE_ENV === 'production') {
   require('./jobs')
 }
+
+// Global Error Handler for Express
+app.use(function (err, req, res, next) {
+  console.error('[FATAL ERROR] Express Middleware:', err);
+  res.status(500).json({
+    message: 'Sunucu tarafında beklenmedik bir hata oluştu.',
+    error: process.env.NODE_ENV === 'development' ? err.message : {}
+  });
+});
+
+// Process-level event listeners for better debugging
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('[CRITICAL] Unhandled Rejection at:', promise, 'reason:', reason);
+  // Optional: Send this to a logging service
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('[CRITICAL] Uncaught Exception:', err);
+  // Give the server time to log/cleanup before exiting
+  setTimeout(() => {
+    process.exit(1);
+  }, 1000);
+});
+
 module.exports = app

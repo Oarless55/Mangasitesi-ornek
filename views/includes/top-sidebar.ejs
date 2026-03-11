@@ -54,7 +54,7 @@
                                                         <div class="item__wrap ">
                                                             <div class="slider__thumb">
                                                                 <div class="slider__thumb_item c-image-hover">
-                                                                    <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>"
+                                                                    <a href="/manga/<%= story.slug %>.<%= story._id %>"
                                                                         tabindex="0">
                                                                         <img width="125" height="180"
                                                                             data-src="<%= webAssets(story.avatar) %>"
@@ -73,7 +73,7 @@
                                                                 <div class="slider__content_item">
                                                                     <div class="post-title font-title">
                                                                         <h4>
-                                                                            <a href="/truyen-tranh/<%= story.slug %>.<%= story._id %>"
+                                                                            <a href="/manga/<%= story.slug %>.<%= story._id %>"
                                                                                 tabindex="0">
                                                                                 <%= story.title %>
                                                                             </a>
@@ -91,7 +91,7 @@
                                                                         <% for (let chapter of chapters) { %>
                                                                             <span class="chapter ">
                                                                                 <a
-                                                                                    href="/truyen-tranh/<%= story.slug %>.<%= story._id %>/<%= chapter.slug %>.<%= chapter._id %>/">
+                                                                                    href="/manga/<%= story.slug %>.<%= story._id %>/<%= chapter.slug %>.<%= chapter._id %>/">
                                                                                     <%= chapter.name %>
                                                                                 </a>
                                                                             </span>

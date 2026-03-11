@@ -18,7 +18,7 @@ router.get('/categories.xml', async (req, res, next) => {
     for (let post of stories) {
       // pipe your entries or directly write them.
       smStream.write({
-        url: '/the-loai/' + post.slug + '.' + post._id,
+        url: '/turler/' + post.slug + '.' + post._id,
         changefreq: 'daily',
         priority: 0.3
       })
@@ -50,7 +50,7 @@ router.get('/stories.xml', async (req, res, next) => {
     for (let post of stories) {
       // pipe your entries or directly write them.
       smStream.write({
-        url: '/truyen-tranh/' + post.slug + '.' + post._id,
+        url: '/manga/' + post.slug + '.' + post._id,
         changefreq: 'daily',
         priority: 0.3
       })
@@ -83,7 +83,7 @@ router.get('/chapters.xml', async (req, res, next) => {
       // pipe your entries or directly write them.
       smStream.write({
         url:
-          '/truyen-tranh/' +
+          '/manga/' +
           post.story.slug +
           '.' +
           post.story._id +
