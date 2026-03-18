@@ -42,7 +42,7 @@
     <link rel="stylesheet" id="slick-theme-css" href="/js/slick/slick-theme.css" type="text/css" media="all">
     <link rel="stylesheet" href="/css/loaders.min.css" type="text/css" media="all">
     <link rel="stylesheet" id="madara-css-css" href="/css/style.min.css" type="text/css" media="all">
-    <!-- <link rel="stylesheet" href="/css/custom.css" type="text/css" media="all"> -->
+    <link rel="stylesheet" href="/css/custom.css?v=2" type="text/css" media="all">
 
 
     <script type="text/javascript" src="/js/lazysizes/lazysizes.min.js" id="lazysizes-js"></script>
@@ -59,15 +59,16 @@
         src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v11.0&appId=155915046224033&autoLogAppEvents=1"
         nonce="8n6FtJjM"></script>
 
-    <script>window._user = '<%= user ? user._id : '' %>'</script>
+    <script>window._user = '<%= user ? user._id : '' %>';</script>
 
-    <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=<%= process.env.ANALYTIC %>"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B121XGG8JV"></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', '<%= process.env.ANALYTIC %>');
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-B121XGG8JV');
     </script>
 
     <% if (showAds) {%>
