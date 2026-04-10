@@ -183,13 +183,13 @@
                                             </span>
                                         </div>
                                     </div>
-                                    <div class="add-bookmark">
+                                    <div class="add-bookmark" id="custom-bookmark-btn" style="cursor: pointer;">
                                         <div class="action_icon">
                                             <a href="javascript:void(0)" title="Yer İmleri">
-                                                <i class="icon ion-ios-bookmark"></i>
+                                                <i class="icon ion-ios-bookmark" id="custom-bookmark-icon"></i>
                                             </a>
                                         </div>
-                                        <div class="action_detail"><span>Takip Et</span>
+                                        <div class="action_detail"><span id="custom-bookmark-text">Takip Et</span>
                                         </div>
                                     </div>
                                     <% if (user && user._id===story.user) {%>
@@ -234,3 +234,65 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const btn = document.getElementById('custom-bookmark-btn');
+    const icon = document.getElementById('custom-bookmark-icon');
+    const text = document.getElementById('custom-bookmark-text');
+    
+    if (!btn) return;
+
+    const currentStory = {
+        id: "<%= story._id %>",
+        title: <%- JSON.stringify(story.title) %>,
+        slug: "<%= story.slug %>",
+        avatar: "<%= webAssets(story.avatar) %>",
+        timestamp: Date.now()
+    };
+
+    function getBookmarks() {
+        try {
+            return JSON.parse(localStorage.getItem('manga_bookmarks') || '[]');
+        } catch(e) { return []; }
+    }
+
+    function saveBookmarks(b) {
+        localStorage.setItem('manga_bookmarks', JSON.stringify(b));
+    }
+
+    function updateUI(isBookmarked) {
+        if (isBookmarked) {
+            icon.style.color = '#ff5353'; // colored flag
+            text.innerText = 'Takip Ediliyor';
+        } else {
+            icon.style.color = ''; // default
+            text.innerText = 'Takip Et';
+        }
+    }
+
+    // Initial check
+    let bookmarks = getBookmarks();
+    let isBookmarked = bookmarks.some(item => item.id === currentStory.id);
+    updateUI(isBookmarked);
+
+    btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        bookmarks = getBookmarks();
+        isBookmarked = bookmarks.some(item => item.id === currentStory.id);
+        
+        if (isBookmarked) {
+            // Remove
+            bookmarks = bookmarks.filter(item => item.id !== currentStory.id);
+            isBookmarked = false;
+        } else {
+            // Add
+            bookmarks.unshift(currentStory);
+            isBookmarked = true;
+        }
+        
+        saveBookmarks(bookmarks);
+        updateUI(isBookmarked);
+    });
+});
+</script>

@@ -130,6 +130,25 @@
                         })
                     })
                 })
+                
+                // History tracker
+                try {
+                    let history = JSON.parse(localStorage.getItem('manga_history') || '[]');
+                    const currentSession = {
+                        id: "<%= story._id %>",
+                        title: <%- JSON.stringify(story.title) %>,
+                        slug: "<%= story.slug %>",
+                        avatar: "<%= webAssets(story.avatar) %>",
+                        timestamp: Date.now()
+                    };
+                    // Remove if already exists to move to top
+                    history = history.filter(item => item.id !== currentSession.id);
+                    history.unshift(currentSession);
+                    // Store max 50 items
+                    localStorage.setItem('manga_history', JSON.stringify(history.slice(0, 50)));
+                } catch(e) {
+                    console.error('History API error', e);
+                }
             </script>
 
     </body>

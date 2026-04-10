@@ -35,9 +35,20 @@
                                                                 <div class="col-md-9 col-sm-9">
                                                                     <div class="tabs-content-wrap">
                                                                         <div class="tab-content">
-                                                                            <div class="tab-pane active">
-                                                                                <router-view
-                                                                                    user="<%= JSON.stringify(user) %>"></router-view>
+                                                                            <div class="tab-pane active" style="position: relative;">
+                                                                                <div id="vue-router-container">
+                                                                                    <router-view
+                                                                                        user="<%= JSON.stringify(user) %>"></router-view>
+                                                                                </div>
+                                                                                
+                                                                                <div id="custom-history-view" style="display: none; width: 100%;">
+                                                                                    <h4 style="margin-bottom: 20px;">Okuma Geçmişim</h4>
+                                                                                    <div id="history-grid"></div>
+                                                                                </div>
+                                                                                <div id="custom-bookmark-view" style="display: none; width: 100%;">
+                                                                                    <h4 style="margin-bottom: 20px;">Takip Ettiğim Seriler</h4>
+                                                                                    <div id="bookmark-grid"></div>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -65,6 +76,69 @@
 
 
         <%- include('includes/script-core') -%>
+
+        <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const vueContainer = document.getElementById('vue-router-container');
+            const historyView = document.getElementById('custom-history-view');
+            const bookmarkView = document.getElementById('custom-bookmark-view');
+            
+            const historyGrid = document.getElementById('history-grid');
+            const bookmarkGrid = document.getElementById('bookmark-grid');
+
+            function renderMangas(container, storageKey, emptyMessage) {
+                try {
+                    const data = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                    if (data.length === 0) {
+                        container.innerHTML = `<p>${emptyMessage}</p>`;
+                        return;
+                    }
+                    let html = '<div class="row">';
+                    data.forEach(m => {
+                        html += `
+                            <div class="col-xs-6 col-sm-4 col-md-3">
+                                <div class="manga-item" style="margin-bottom: 25px; text-align: center;">
+                                    <a href="/manga/${m.slug}.${m.id}" style="color: #fff; text-decoration: none;">
+                                        <div style="position: relative; width: 100%; padding-bottom: 140%; overflow: hidden; border-radius: 5px;">
+                                            <img src="${m.avatar}" style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+                                        </div>
+                                        <h5 style="margin-top: 10px; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${m.title.replace(/"/g, '&quot;')}">${m.title}</h5>
+                                    </a>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    html += '</div>';
+                    container.innerHTML = html;
+                } catch(e) {
+                    container.innerHTML = `<p>${emptyMessage}</p>`;
+                }
+            }
+
+            function checkRoute() {
+                const path = window.location.hash || window.location.pathname;
+                
+                if (path.includes('history') || path.includes('gecmis') || path.includes('Lịch Sử')) {
+                    vueContainer.style.display = 'none';
+                    historyView.style.display = 'block';
+                    bookmarkView.style.display = 'none';
+                    renderMangas(historyGrid, 'manga_history', 'Henüz okuduğunuz bir seri bulunmuyor.');
+                } else if (path.includes('bookmark') || path.includes('takip') || path.includes('Theo Dõi')) {
+                    vueContainer.style.display = 'none';
+                    bookmarkView.style.display = 'block';
+                    historyView.style.display = 'none';
+                    renderMangas(bookmarkGrid, 'manga_bookmarks', 'Henüz takip ettiğiniz bir seri bulunmuyor.');
+                } else {
+                    vueContainer.style.display = 'block';
+                    historyView.style.display = 'none';
+                    bookmarkView.style.display = 'none';
+                }
+            }
+
+            setInterval(checkRoute, 300);
+            checkRoute();
+        });
+        </script>
 
     </body>
 
