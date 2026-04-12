@@ -1,0 +1,70 @@
+/* custom.css - Theme Overrides */
+
+/* Change Header Background to Match Dark Theme */
+.site-header,
+.site-header .c-header__top,
+.site-header .main-navigation,
+.site-header .c-sub-header-nav,
+.site-header .c-sub-header-nav .container {
+    background: #0b0b0b !important;
+    border: none !important;
+    border-bottom: none !important;
+}
+
+/* Sub Navigate Text Colors */
+.site-header .c-sub-header-nav .sub-nav_list > li > a,
+.site-header .c-sub-header-nav .c-modal_item > a,
+.site-header .c-sub-header-nav .c-modal_item .c-user_meta span,
+.site-header .main-navigation .main-menu > ul > li > a {
+    color: #fff !important;
+}
+
+/* Increase Logo Size to match references */
+.site-header .logo-svg {
+    height: 80px !important;
+    max-height: 80px !important;
+    width: auto !important;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.site-header .main-navigation_wrap {
+    align-items: center;
+}
+
+/* Live Readers Counter CSS */
+.live-counter-menu {
+    border-radius: 20px;
+    padding: 0 10px !important;
+    background-color: rgba(76, 175, 80, 0.1);
+    border: 1px solid rgba(76, 175, 80, 0.3);
+    display: flex !important;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.live-counter-menu .pulse-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #4caf50;
+    box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+    animation: pulsering 2s infinite;
+    margin-right: 8px;
+}
+
+@keyframes pulsering {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 6px rgba(76, 175, 80, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(76, 175, 80, 0);
+    }
+}

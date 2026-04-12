@@ -2,3 +2,16 @@
 <script type="text/javascript" src="/js/bootstrap.min.js" id="bootstrap-js"></script>
 <script type="text/javascript" src="/js/template.js" id="madara-js-js"></script>
 <script type="text/javascript" src="/js/app.min.js" id="madara-js-js"></script>
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    if (typeof io !== 'undefined') {
+        var socket = io();
+        socket.on('update-online-users', function(count) {
+            var counterEls = document.querySelectorAll('.online-users-count');
+            counterEls.forEach(function(el) {
+                el.innerText = count;
+            });
+        });
+    }
+</script>

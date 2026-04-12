@@ -20,8 +20,14 @@ const server = http.createServer(app);
 /**
  * Socketio
  */
-// const socketApi = require('../socket')
-// socketApi.io.attach(server, { allowEIO3: true })
+const socketApi = require('../socket')
+socketApi.io.attach(server, { 
+   allowEIO3: true,
+   cors: {
+      origin: "*",
+      methods: ["GET", "POST"]
+   }
+})
 
 /**
  * Listen on provided port, on all network interfaces.
