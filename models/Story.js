@@ -51,6 +51,16 @@ const BookSchema = new mongoose.Schema({
     default: 0,
     index: true
   },
+  viewsWeekly: {
+    type: Number,
+    default: 0,
+    index: true
+  },
+  viewsMonthly: {
+    type: Number,
+    default: 0,
+    index: true
+  },
   countChapter: {
     type: Number,
     default: 0,

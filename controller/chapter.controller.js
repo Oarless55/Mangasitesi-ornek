@@ -16,7 +16,7 @@ class ChapterController {
     }
     await Promise.all([
       Chapter.findByIdAndUpdate(_id, { $inc: { views: 1 } }),
-      Story.findByIdAndUpdate(chapter.story, { $inc: { views: 1 } })
+      Story.findByIdAndUpdate(chapter.story, { $inc: { views: 1, viewsWeekly: 1, viewsMonthly: 1 } })
     ])
     return chapter
   }

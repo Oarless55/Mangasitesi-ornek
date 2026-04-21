@@ -139,6 +139,8 @@
                         title: <%- JSON.stringify(story.title) %>,
                         slug: "<%= story.slug %>",
                         avatar: "<%= webAssets(story.avatar) %>",
+                        chapterUrl: window.location.pathname + window.location.search,
+                        chapterName: "<%= chapter.name %>",
                         timestamp: Date.now()
                     };
                     // Remove if already exists to move to top
