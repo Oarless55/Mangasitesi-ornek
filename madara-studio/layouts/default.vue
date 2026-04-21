@@ -2,7 +2,7 @@
   <a-layout id="components-layout-demo-custom-trigger">
     <a-layout-sider>
       <div class="site-logo">
-        <img :src="logo" class="logo-svg">
+        <h2 style="color: white; font-weight: bold; margin: 0; padding: 20px 0 10px 20px;">Manga Cephesi</h2>
       </div>
       <a-menu theme="dark" mode="inline" :default-selected-keys="['1']">
         <a-menu-item key="1" @click="$route.name !== 'stories' && $router.push({ name: 'stories' })">

@@ -32,6 +32,26 @@ const UserSchema = new mongoose.Schema({
   createdAt: {
     type: Number,
     default: Date.now()
+  },
+  bookmarks: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'Story'
+  }],
+  history: [{
+    story: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Story'
+    },
+    chapterUrl: String,
+    chapterName: String,
+    timestamp: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  totalReadChapters: {
+    type: Number,
+    default: 0
   }
 })
 

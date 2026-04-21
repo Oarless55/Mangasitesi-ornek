@@ -33,6 +33,43 @@
                                                                     <tab-bar></tab-bar>
                                                                 </div>
                                                                 <div class="col-md-9 col-sm-9">
+                                                                    <% if (typeof user !== 'undefined' && user && typeof cloudLibrary !== 'undefined' && cloudLibrary.stats) { %>
+                                                                    <div class="gamification-board" style="background: linear-gradient(135deg, #1e1e24 0%, #2a2a35 100%); border-radius: 15px; padding: 25px; color: #fff; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
+                                                                        
+                                                                        <div style="position: absolute; top: -20px; right: -20px; opacity: 0.05; font-size: 180px; z-index: 1;">
+                                                                           <i class="icon ion-ios-trophy"></i>
+                                                                        </div>
+
+                                                                        <div style="position: relative; z-index: 2; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;">
+                                                                            <div style="display: flex; align-items: center; gap: 20px; flex: 1; min-width: 250px;">
+                                                                                <div style="width: 80px; height: 80px; border-radius: 50%; background: linear-gradient(45deg, #ff416c, #ff4b2b); display: flex; align-items: center; justify-content: center; font-size: 26px; font-weight: bold; border: 4px solid #1a1a24; box-shadow: 0 0 20px rgba(255, 65, 108, 0.4); flex-shrink: 0;">
+                                                                                    Lv.<%= cloudLibrary.stats.currentLevel %>
+                                                                                </div>
+                                                                                <div>
+                                                                                    <h3 style="margin: 0 0 5px 0; font-size: 24px; font-weight: 700; color: #fff; text-transform: uppercase; letter-spacing: 1px;"><%= cloudLibrary.stats.levelTitle %></h3>
+                                                                                    <p style="margin: 0; color: #aaa; font-size: 14px;">Sitemizde bugüne kadar tam <b style="color:#fff;"><%= cloudLibrary.stats.totalReads %></b> bölüm okudunuz.</p>
+                                                                                </div>
+                                                                            </div>
+                                                                            
+                                                                            <div style="text-align: right; flex: 1; min-width: 220px;">
+                                                                                <div style="display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 13px; color: #ccc;">
+                                                                                    <span>Deneyim Barı</span>
+                                                                                    <span>HEDEF: <b><%= cloudLibrary.stats.nextThreshold %> Bölüm</b></span>
+                                                                                </div>
+                                                                                <div style="width: 100%; height: 12px; background: rgba(0,0,0,0.5); border-radius: 6px; overflow: hidden; box-shadow: inset 0 2px 4px rgba(0,0,0,0.5);">
+                                                                                    <div class="xp-bar-inner" style="width: <%= cloudLibrary.stats.percentage %>%; height: 100%; background: linear-gradient(90deg, #ff416c, #ff4b2b); border-radius: 6px; transition: width 1.5s ease-out;"></div>
+                                                                                </div>
+                                                                                <div style="margin-top: 20px; display: flex; justify-content: flex-end; gap: 10px;">
+                                                                                    <span style="background: rgba(255, 255, 255, 0.08); padding: 6px 14px; border-radius: 20px; font-size: 12px; border: 1px solid rgba(255,255,255,0.15); display: inline-flex; align-items: center; gap: 5px;">
+                                                                                        <i class="icon ion-md-flame" style="color: #ff4b2b;"></i> 
+                                                                                        Favori Türün: <b style="color: #fff;"><%= cloudLibrary.stats.favoriteGenre %></b>
+                                                                                    </span>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <% } %>
+
                                                                     <div class="tabs-content-wrap">
                                                                         <div class="tab-content">
                                                                             <div class="tab-pane active" style="position: relative;">
@@ -86,21 +123,55 @@
             const historyGrid = document.getElementById('history-grid');
             const bookmarkGrid = document.getElementById('bookmark-grid');
 
-            function renderMangas(container, storageKey, emptyMessage) {
+            const isUserLoggedIn = <%= typeof user !== 'undefined' && user ? 'true' : 'false' %>;
+            const cloudLibraryRaw = <%- typeof cloudLibrary !== 'undefined' && cloudLibrary ? JSON.stringify(cloudLibrary) : 'null' %>;
+            
+            let finalHistoryData = [];
+            let finalBookmarkData = [];
+            
+            if (isUserLoggedIn && cloudLibraryRaw) {
+               finalHistoryData = cloudLibraryRaw.history.map(h => ({
+                   id: h.story._id,
+                   title: h.story.title,
+                   slug: h.story.slug,
+                   avatar: typeof h.story.avatar === 'string' && h.story.avatar.includes('http') ? h.story.avatar : ('/upload/' + h.story.avatar),
+                   chapterUrl: h.chapterUrl,
+                   chapterName: h.chapterName
+               }));
+               finalBookmarkData = cloudLibraryRaw.bookmarks.map(b => ({
+                   id: b._id,
+                   title: b.title,
+                   slug: b.slug,
+                   avatar: typeof b.avatar === 'string' && b.avatar.includes('http') ? b.avatar : ('/upload/' + b.avatar)
+               }));
+            }
+
+            function renderMangas(container, storageKey, emptyMessage, cloudDataOverride) {
                 try {
-                    const data = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                    let data = [];
+                    if (isUserLoggedIn) {
+                        data = cloudDataOverride || [];
+                    } else {
+                        data = JSON.parse(localStorage.getItem(storageKey) || '[]');
+                    }
+
                     if (data.length === 0) {
                         container.innerHTML = `<p>${emptyMessage}</p>`;
                         return;
                     }
                     let html = '<div class="row">';
                     data.forEach(m => {
+                        // Link goes to chapter if history, or story if bookmark
+                        const link = m.chapterUrl ? m.chapterUrl : `/manga/${m.slug}.${m.id}`;
+                        const badge = m.chapterName ? `<div style="position: absolute; bottom: 0; background: rgba(0,0,0,0.8); color: #fff; width: 100%; font-size: 12px; padding: 3px;">${m.chapterName}</div>` : '';
+                        
                         html += `
                             <div class="col-xs-6 col-sm-4 col-md-3">
                                 <div class="manga-item" style="margin-bottom: 25px; text-align: center;">
-                                    <a href="/manga/${m.slug}.${m.id}" style="color: #fff; text-decoration: none;">
+                                    <a href="${link}" style="color: #fff; text-decoration: none;">
                                         <div style="position: relative; width: 100%; padding-bottom: 140%; overflow: hidden; border-radius: 5px;">
                                             <img src="${m.avatar}" style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+                                            ${badge}
                                         </div>
                                         <h5 style="margin-top: 10px; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${m.title.replace(/"/g, '&quot;')}">${m.title}</h5>
                                     </a>
@@ -122,12 +193,12 @@
                     vueContainer.style.display = 'none';
                     historyView.style.display = 'block';
                     bookmarkView.style.display = 'none';
-                    renderMangas(historyGrid, 'manga_history', 'Henüz okuduğunuz bir seri bulunmuyor.');
+                    renderMangas(historyGrid, 'manga_history', 'Henüz okuduğunuz bir seri bulunmuyor.', finalHistoryData);
                 } else if (path.includes('bookmark') || path.includes('takip') || path.includes('Theo Dõi')) {
                     vueContainer.style.display = 'none';
                     bookmarkView.style.display = 'block';
                     historyView.style.display = 'none';
-                    renderMangas(bookmarkGrid, 'manga_bookmarks', 'Henüz takip ettiğiniz bir seri bulunmuyor.');
+                    renderMangas(bookmarkGrid, 'manga_bookmarks', 'Henüz takip ettiğiniz bir seri bulunmuyor.', finalBookmarkData);
                 } else {
                     vueContainer.style.display = 'block';
                     historyView.style.display = 'none';

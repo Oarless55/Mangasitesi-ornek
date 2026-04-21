@@ -133,7 +133,7 @@
                 
                 // History tracker
                 try {
-                    let history = JSON.parse(localStorage.getItem('manga_history') || '[]');
+                    const isUserLoggedIn = <%= typeof user !== 'undefined' && user ? 'true' : 'false' %>;
                     const currentSession = {
                         id: "<%= story._id %>",
                         title: <%- JSON.stringify(story.title) %>,
@@ -143,7 +143,21 @@
                         chapterName: "<%= chapter.name %>",
                         timestamp: Date.now()
                     };
-                    // Remove if already exists to move to top
+
+                    if (isUserLoggedIn) {
+                        fetch('/settings/api/history', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                storyId: currentSession.id,
+                                chapterUrl: currentSession.chapterUrl,
+                                chapterName: currentSession.chapterName
+                            })
+                        }).catch(e => console.error('Cloud history err:', e));
+                    }
+
+                    // Always sync local fallback for guest visits or speed
+                    let history = JSON.parse(localStorage.getItem('manga_history') || '[]');
                     history = history.filter(item => item.id !== currentSession.id);
                     history.unshift(currentSession);
                     // Store max 50 items

@@ -272,27 +272,52 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     // Initial check
+    const isUserLoggedIn = <%= user ? 'true' : 'false' %>;
+    const userBookmarks = <%- user && user.bookmarks ? JSON.stringify(user.bookmarks) : '[]' %>;
+    
     let bookmarks = getBookmarks();
-    let isBookmarked = bookmarks.some(item => item.id === currentStory.id);
+    let isBookmarked = false;
+    
+    if (isUserLoggedIn) {
+        isBookmarked = userBookmarks.includes(currentStory.id);
+    } else {
+        isBookmarked = bookmarks.some(item => item.id === currentStory.id);
+    }
+    
     updateUI(isBookmarked);
 
-    btn.addEventListener('click', function(e) {
+    btn.addEventListener('click', async function(e) {
         e.preventDefault();
-        bookmarks = getBookmarks();
-        isBookmarked = bookmarks.some(item => item.id === currentStory.id);
         
-        if (isBookmarked) {
-            // Remove
-            bookmarks = bookmarks.filter(item => item.id !== currentStory.id);
-            isBookmarked = false;
+        if (isUserLoggedIn) {
+            try {
+                const res = await fetch('/settings/api/bookmark', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ storyId: currentStory.id })
+                });
+                const data = await res.json();
+                if (data.success) {
+                    updateUI(data.isBookmarked);
+                }
+            } catch (err) { console.error('Cloud bookmark failed:', err) }
         } else {
-            // Add
-            bookmarks.unshift(currentStory);
-            isBookmarked = true;
+            bookmarks = getBookmarks();
+            isBookmarked = bookmarks.some(item => item.id === currentStory.id);
+            
+            if (isBookmarked) {
+                // Remove
+                bookmarks = bookmarks.filter(item => item.id !== currentStory.id);
+                isBookmarked = false;
+            } else {
+                // Add
+                bookmarks.unshift(currentStory);
+                isBookmarked = true;
+            }
+            
+            saveBookmarks(bookmarks);
+            updateUI(isBookmarked);
         }
-        
-        saveBookmarks(bookmarks);
-        updateUI(isBookmarked);
     });
 });
 </script>

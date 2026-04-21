@@ -1,9 +1,11 @@
 const multer = require('multer')
+const { v4: uuidv4 } = require('uuid')
+
 // SET STORAGE
 const storage = multer.diskStorage({
   destination: 'public/upload/temp',
   filename: function (req, file, cb) {
-    cb(null, file.fieldname + '-' + Date.now() + '.jpg')
+    cb(null, file.fieldname + '-' + Date.now() + '-' + uuidv4() + '.jpg')
   }
 })
 

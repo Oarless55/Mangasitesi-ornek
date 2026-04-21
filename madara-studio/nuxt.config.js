@@ -11,7 +11,7 @@ export default {
       { hid: 'google-site-verification', name: 'google-site-verification', content: 'inccAK8aI3TKyVgTk9q8NcOm6lT1q5jm4WzcPqlQpbY' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/png', href: '/favicon.png' }
     ],
     script: [
       {
