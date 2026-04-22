@@ -34,12 +34,12 @@ const UserSchema = new mongoose.Schema({
     default: Date.now()
   },
   bookmarks: [{
-    type: mongoose.Schema.Types.ObjectId,
+    type: Number,
     ref: 'Story'
   }],
   history: [{
     story: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Number,
       ref: 'Story'
     },
     chapterUrl: String,
