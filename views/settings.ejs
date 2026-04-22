@@ -24,15 +24,31 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
-
-                                                    <div class="entry-content">
+                                                     <div class="entry-content">
                                                         <div class="entry-content_wrap">
                                                             <div class="row settings-page">
+                                                                <!-- SOL MENÜ (Vue'suz, kendi menümüz) -->
                                                                 <div class="col-md-3 col-sm-3">
-                                                                    <tab-bar></tab-bar>
+                                                                    <div style="background: rgba(255,255,255,0.04); border-radius: 12px; padding: 10px; border: 1px solid rgba(255,255,255,0.07);">
+                                                                        <a href="/settings/bookmark" id="tab-btn-bookmark" class="settings-tab-btn" style="display:flex; align-items:center; gap:10px; padding: 12px 15px; border-radius: 8px; color: #ccc; text-decoration: none; font-weight:600; font-size:14px; margin-bottom:4px; transition: all 0.2s;">
+                                                                            <i class="icon ion-ios-bookmark" style="font-size:18px;"></i> Takip Edilenler
+                                                                        </a>
+                                                                        <a href="/settings/history" id="tab-btn-history" class="settings-tab-btn" style="display:flex; align-items:center; gap:10px; padding: 12px 15px; border-radius: 8px; color: #ccc; text-decoration: none; font-weight:600; font-size:14px; margin-bottom:4px; transition: all 0.2s;">
+                                                                            <i class="icon ion-md-time" style="font-size:18px;"></i> Geçmiş
+                                                                        </a>
+                                                                        <a href="/settings/account" id="tab-btn-account" class="settings-tab-btn" style="display:flex; align-items:center; gap:10px; padding: 12px 15px; border-radius: 8px; color: #ccc; text-decoration: none; font-weight:600; font-size:14px; margin-bottom:4px; transition: all 0.2s;">
+                                                                            <i class="icon ion-md-person" style="font-size:18px;"></i> Hesap
+                                                                        </a>
+                                                                    </div>
+                                                                    <style>
+                                                                        .settings-tab-btn:hover { background: rgba(255,255,255,0.08) !important; color: #fff !important; }
+                                                                        .settings-tab-btn.active { background: linear-gradient(135deg, #e53935, #b71c1c) !important; color: #fff !important; box-shadow: 0 4px 15px rgba(229,57,53,0.3); }
+                                                                    </style>
                                                                 </div>
+
+                                                                <!-- SAĞ İÇERİK -->
                                                                 <div class="col-md-9 col-sm-9">
+
                                                                     <% if (typeof user !== 'undefined' && user && typeof cloudLibrary !== 'undefined' && cloudLibrary.stats) { %>
                                                                     <div class="gamification-board" style="background: linear-gradient(135deg, #1e1e24 0%, #2a2a35 100%); border-radius: 15px; padding: 25px; color: #fff; margin-bottom: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.05);">
                                                                         
@@ -86,25 +102,23 @@
                                                                     </div>
                                                                     <% } %>
 
-                                                                    <div class="tabs-content-wrap">
-                                                                        <div class="tab-content">
-                                                                            <div class="tab-pane active" style="position: relative;">
-                                                                                <div id="vue-router-container">
-                                                                                    <router-view
-                                                                                        user="<%= JSON.stringify(user) %>"></router-view>
-                                                                                </div>
-                                                                                
-                                                                                <div id="custom-history-view" style="display: none; width: 100%;">
-                                                                                    <h4 style="margin-bottom: 20px;">Okuma Geçmişim</h4>
-                                                                                    <div id="history-grid"></div>
-                                                                                </div>
-                                                                                <div id="custom-bookmark-view" style="display: none; width: 100%;">
-                                                                                    <h4 style="margin-bottom: 20px;">Takip Ettiğim Seriler</h4>
-                                                                                    <div id="bookmark-grid"></div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
+                                                                    <!-- TAKİP EDİLENLER PANELİ -->
+                                                                    <div id="panel-bookmark" style="display:none;">
+                                                                        <h4 style="margin-bottom: 20px;"><i class="icon ion-ios-bookmark"></i> Takip Ettiğim Seriler</h4>
+                                                                        <div id="bookmark-grid"></div>
                                                                     </div>
+
+                                                                    <!-- GEÇMİŞ PANELİ -->
+                                                                    <div id="panel-history" style="display:none;">
+                                                                        <h4 style="margin-bottom: 20px;"><i class="icon ion-md-time"></i> Okuma Geçmişim</h4>
+                                                                        <div id="history-grid"></div>
+                                                                    </div>
+
+                                                                    <!-- HESAP PANELİ (Vue ile çalışıyor) -->
+                                                                    <div id="panel-account" style="display:none;">
+                                                                        <router-view user="<%= JSON.stringify(user) %>"></router-view>
+                                                                    </div>
+
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -116,6 +130,7 @@
                                 </div>
                             </div>
                         </div>
+        </div>
                     </div>
                     <%- include('includes/footer') -%>
             </div>
@@ -132,12 +147,11 @@
 
         <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const vueContainer = document.getElementById('vue-router-container');
-            const historyView = document.getElementById('custom-history-view');
-            const bookmarkView = document.getElementById('custom-bookmark-view');
-            
-            const historyGrid = document.getElementById('history-grid');
-            const bookmarkGrid = document.getElementById('bookmark-grid');
+            const panelBookmark = document.getElementById('panel-bookmark');
+            const panelHistory  = document.getElementById('panel-history');
+            const panelAccount  = document.getElementById('panel-account');
+            const bookmarkGrid  = document.getElementById('bookmark-grid');
+            const historyGrid   = document.getElementById('history-grid');
 
             const isUserLoggedIn = <%= typeof user !== 'undefined' && user ? 'true' : 'false' %>;
             const cloudLibraryRaw = <%- typeof cloudLibrary !== 'undefined' && cloudLibrary ? JSON.stringify(cloudLibrary) : 'null' %>;
@@ -146,91 +160,89 @@
             let finalBookmarkData = [];
             
             if (isUserLoggedIn && cloudLibraryRaw) {
-               finalHistoryData = cloudLibraryRaw.history.map(h => ({
-                   id: h.story._id,
-                   title: h.story.title,
-                   slug: h.story.slug,
-                   avatar: typeof h.story.avatar === 'string' && h.story.avatar.includes('http') ? h.story.avatar : ('/upload/' + h.story.avatar),
-                   chapterUrl: h.chapterUrl,
-                   chapterName: h.chapterName
-               }));
-               finalBookmarkData = cloudLibraryRaw.bookmarks.map(b => ({
-                   id: b._id,
-                   title: b.title,
-                   slug: b.slug,
-                   avatar: typeof b.avatar === 'string' && b.avatar.includes('http') ? b.avatar : ('/upload/' + b.avatar)
-               }));
+               try {
+                 finalHistoryData = (cloudLibraryRaw.history || []).filter(h => h && h.story).map(h => ({
+                     id: h.story._id,
+                     title: h.story.title,
+                     slug: h.story.slug,
+                     avatar: typeof h.story.avatar === 'string' && h.story.avatar.includes('http') ? h.story.avatar : ('/upload/' + h.story.avatar),
+                     chapterUrl: h.chapterUrl,
+                     chapterName: h.chapterName
+                 }));
+                 finalBookmarkData = (cloudLibraryRaw.bookmarks || []).filter(b => b).map(b => ({
+                     id: b._id,
+                     title: b.title,
+                     slug: b.slug,
+                     avatar: typeof b.avatar === 'string' && b.avatar.includes('http') ? b.avatar : ('/upload/' + b.avatar)
+                 }));
+               } catch(e) { console.error('Data parse error', e); }
             }
 
-            function renderMangas(container, storageKey, emptyMessage, cloudDataOverride) {
+            function renderMangas(container, storageKey, emptyMessage, cloudData) {
                 try {
-                    let data = [];
-                    if (isUserLoggedIn) {
-                        data = cloudDataOverride || [];
-                    } else {
-                        data = JSON.parse(localStorage.getItem(storageKey) || '[]');
-                    }
-
+                    let data = isUserLoggedIn ? (cloudData || []) : JSON.parse(localStorage.getItem(storageKey) || '[]');
                     if (data.length === 0) {
-                        container.innerHTML = `<p>${emptyMessage}</p>`;
+                        container.innerHTML = `<div style="text-align:center; padding:40px; color:#aaa;"><i class="icon ion-md-albums" style="font-size:48px; display:block; margin-bottom:15px; opacity:0.3;"></i><p>${emptyMessage}</p></div>`;
                         return;
                     }
                     let html = '<div class="row">';
                     data.forEach(m => {
-                        // Link goes to chapter if history, or story if bookmark
                         const link = m.chapterUrl ? m.chapterUrl : `/manga/${m.slug}.${m.id}`;
-                        const badge = m.chapterName ? `<div style="position: absolute; bottom: 0; background: rgba(0,0,0,0.8); color: #fff; width: 100%; font-size: 12px; padding: 3px;">${m.chapterName}</div>` : '';
-                        
+                        const badge = m.chapterName ? `<div style="position:absolute;bottom:0;background:rgba(0,0,0,0.85);color:#fff;width:100%;font-size:11px;padding:4px 5px;">${m.chapterName}</div>` : '';
                         html += `
                             <div class="col-xs-6 col-sm-4 col-md-3">
-                                <div class="manga-item" style="margin-bottom: 25px; text-align: center;">
-                                    <a href="${link}" style="color: #fff; text-decoration: none;">
-                                        <div style="position: relative; width: 100%; padding-bottom: 140%; overflow: hidden; border-radius: 5px;">
-                                            <img src="${m.avatar}" style="position: absolute; top:0; left:0; width:100%; height:100%; object-fit: cover;">
+                                <div style="margin-bottom:20px; text-align:center;">
+                                    <a href="${link}" style="color:inherit; text-decoration:none;">
+                                        <div style="position:relative; width:100%; padding-bottom:140%; overflow:hidden; border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,0.4);">
+                                            <img src="${m.avatar}" style="position:absolute; top:0; left:0; width:100%; height:100%; object-fit:cover;" loading="lazy">
                                             ${badge}
                                         </div>
-                                        <h5 style="margin-top: 10px; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${m.title.replace(/"/g, '&quot;')}">${m.title}</h5>
+                                        <h5 style="margin-top:8px; font-size:13px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${m.title.replace(/"/g,'&quot;')}">${m.title}</h5>
                                     </a>
                                 </div>
-                            </div>
-                        `;
+                            </div>`;
                     });
                     html += '</div>';
                     container.innerHTML = html;
                 } catch(e) {
-                    container.innerHTML = `<p>${emptyMessage}</p>`;
+                    container.innerHTML = `<p style="color:#aaa; padding:20px;">${emptyMessage}</p>`;
                 }
             }
 
-            function checkRoute() {
-                const path = window.location.pathname + window.location.hash;
-                const isHistory  = path.includes('history')  || path.includes('gecmis')  || path.includes('Lịch Sử');
-                const isBookmark = path.includes('bookmark') || path.includes('takip')   || path.includes('Theo Dõi');
+            function showPanel(name) {
+                panelBookmark.style.display = 'none';
+                panelHistory.style.display  = 'none';
+                panelAccount.style.display  = 'none';
                 
-                if (isHistory) {
-                    vueContainer.style.display = 'none';
-                    historyView.style.display = 'block';
-                    bookmarkView.style.display = 'none';
-                    if (!historyGrid.dataset.rendered) {
-                        renderMangas(historyGrid, 'manga_history', 'Henüz okuduğunuz bir seri bulunmuyor.', finalHistoryData);
-                        historyGrid.dataset.rendered = '1';
-                    }
-                } else if (isBookmark) {
-                    vueContainer.style.display = 'none';
-                    bookmarkView.style.display = 'block';
-                    historyView.style.display = 'none';
+                document.querySelectorAll('.settings-tab-btn').forEach(b => b.classList.remove('active'));
+
+                if (name === 'bookmark') {
+                    panelBookmark.style.display = 'block';
+                    document.getElementById('tab-btn-bookmark').classList.add('active');
                     if (!bookmarkGrid.dataset.rendered) {
                         renderMangas(bookmarkGrid, 'manga_bookmarks', 'Henüz takip ettiğiniz bir seri bulunmuyor.', finalBookmarkData);
                         bookmarkGrid.dataset.rendered = '1';
                     }
+                } else if (name === 'history') {
+                    panelHistory.style.display = 'block';
+                    document.getElementById('tab-btn-history').classList.add('active');
+                    if (!historyGrid.dataset.rendered) {
+                        renderMangas(historyGrid, 'manga_history', 'Henüz okuduğunuz bir seri bulunmuyor.', finalHistoryData);
+                        historyGrid.dataset.rendered = '1';
+                    }
                 } else {
-                    vueContainer.style.display = 'block';
-                    historyView.style.display = 'none';
-                    bookmarkView.style.display = 'none';
+                    panelAccount.style.display = 'block';
+                    document.getElementById('tab-btn-account').classList.add('active');
                 }
             }
 
-            setInterval(checkRoute, 300);
+            function checkRoute() {
+                const path = window.location.pathname;
+                if (path.includes('bookmark')) showPanel('bookmark');
+                else if (path.includes('history')) showPanel('history');
+                else showPanel('account');
+            }
+
             checkRoute();
         });
         </script>
