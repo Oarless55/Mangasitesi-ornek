@@ -299,8 +299,13 @@ document.addEventListener("DOMContentLoaded", function() {
                 const data = await res.json();
                 if (data.success) {
                     updateUI(data.isBookmarked);
+                } else {
+                    alert("Bulut hatası: " + (data.error || "Bilinmeyen bir sunucu hatası."));
                 }
-            } catch (err) { console.error('Cloud bookmark failed:', err) }
+            } catch (err) { 
+                alert("Bağlantı hatası: Sunucuyla iletişim kurulamadı.");
+                console.error('Cloud bookmark failed:', err) 
+            }
         } else {
             bookmarks = getBookmarks();
             isBookmarked = bookmarks.some(item => item.id === currentStory.id);
