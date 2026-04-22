@@ -13,5 +13,96 @@
                 el.innerText = count;
             });
         });
+
+        socket.on('recent-activity', function(data) {
+            var container = document.getElementById('live-stream-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'live-stream-container';
+                document.body.appendChild(container);
+            }
+            
+            var toast = document.createElement('div');
+            toast.className = 'live-toast';
+            var avatarUrl = data.userAvatar || 'https://i.imgur.com/pqGLgGr.jpg';
+            // Simple XSS prevention
+            var safeUser = document.createTextNode(data.user).textContent;
+            var safeChapter = document.createTextNode(data.chapterName).textContent;
+            
+            toast.innerHTML = `
+                <img src="${avatarUrl}" class="toast-avatar" alt="Avatar">
+                <div class="live-toast-content">
+                    <strong>${safeUser}</strong> az önce <a href="${data.url}">${safeChapter}</a> bölümünü okudu.
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            
+            if (container.children.length > 3) {
+                var firstChild = container.children[0];
+                if (!firstChild.classList.contains('fade-out')) {
+                    firstChild.classList.add('fade-out');
+                    setTimeout(function() {
+                        if (firstChild.parentNode === container) {
+                            container.removeChild(firstChild);
+                        }
+                    }, 500);
+                }
+            }
+            
+            setTimeout(function() {
+                toast.classList.add('fade-out');
+                setTimeout(function() {
+                    if (toast.parentNode === container) {
+                        container.removeChild(toast);
+                    }
+                }, 500);
+            }, 5000);
+        });
+        socket.on('badge-unlocked', function(data) {
+            var container = document.getElementById('badge-feed-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'badge-feed-container';
+                document.body.appendChild(container);
+            }
+            
+            var toast = document.createElement('div');
+            toast.className = 'badge-toast';
+            var safeUser = document.createTextNode(data.user).textContent;
+            var safeBadgeName = document.createTextNode(data.badgeName).textContent;
+            var safeBadgeDesc = document.createTextNode(data.badgeDesc).textContent;
+            
+            toast.innerHTML = `
+                <div class="badge-toast-icon"><i class="${data.badgeIcon}"></i></div>
+                <div class="badge-toast-content">
+                    <span class="badge-name">${safeBadgeName}</span>
+                    <strong>${safeUser}</strong> ${safeBadgeDesc}
+                </div>
+            `;
+            
+            container.appendChild(toast);
+            
+            if (container.children.length > 3) {
+                var firstChild = container.children[0];
+                if (!firstChild.classList.contains('fade-out')) {
+                    firstChild.classList.add('fade-out');
+                    setTimeout(function() {
+                        if (firstChild.parentNode === container) {
+                            container.removeChild(firstChild);
+                        }
+                    }, 500);
+                }
+            }
+            
+            setTimeout(function() {
+                toast.classList.add('fade-out');
+                setTimeout(function() {
+                    if (toast.parentNode === container) {
+                        container.removeChild(toast);
+                    }
+                }, 500);
+            }, 6000);
+        });
     }
 </script>

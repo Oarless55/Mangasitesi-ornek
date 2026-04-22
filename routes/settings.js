@@ -3,6 +3,8 @@ const router = express.Router()
 
 const User = require('../models/User')
 const Category = require('../models/Category')
+const Story = require('../models/Story')
+const socketApi = require('../socket')
 
 // Bookmark Toggle Route
 router.post('/api/bookmark', async (req, res) => {
@@ -11,13 +13,34 @@ router.post('/api/bookmark', async (req, res) => {
     const { storyId } = req.body
     const user = await User.findById(res.locals.user._id)
     const index = user.bookmarks.indexOf(storyId)
+    let newBadges = [];
     if (index === -1) {
       user.bookmarks.unshift(storyId) // Add to top
+      
+      // --- BADGE ENGINE: Sosyal Kelebek ---
+      if (!user.badges) user.badges = [];
+      if (user.bookmarks.length === 1 && !user.badges.find(b => b.id === 'sosyal_kelebek')) {
+        const badge = {
+          id: 'sosyal_kelebek', name: 'Sosyal Kelebek', icon: 'fas fa-heart', description: 'İlk defa bir seriyi favorilerinize eklediniz!'
+        };
+        user.badges.push(badge);
+        newBadges.push(badge);
+        
+        if (socketApi && socketApi.io) {
+          socketApi.io.emit('badge-unlocked', {
+            user: user.name,
+            userAvatar: user.avatar,
+            badgeName: badge.name,
+            badgeIcon: badge.icon,
+            badgeDesc: badge.description
+          });
+        }
+      }
     } else {
       user.bookmarks.splice(index, 1) // Remove
     }
     await user.save()
-    res.json({ success: true, isBookmarked: index === -1 })
+    res.json({ success: true, isBookmarked: index === -1, newBadges })
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
   }
@@ -50,8 +73,76 @@ router.post('/api/history', async (req, res) => {
     
     user.totalReadChapters = (user.totalReadChapters || 0) + 1;
     
+    // --- BADGE ENGINE ---
+    if (!user.badges) user.badges = [];
+    let newBadges = [];
+    
+    // 1. İlk Kan (First Blood)
+    if (user.totalReadChapters === 1 && !user.badges.find(b => b.id === 'ilk_kan')) {
+      newBadges.push({
+        id: 'ilk_kan', name: 'İlk Kan', icon: 'fas fa-tint', description: 'İlk bölümünü okudun!'
+      });
+    }
+
+    // 2. Gece Kuşu (Night Owl) - check between 03:00 and 05:00
+    const currentHour = new Date().getHours();
+    if (currentHour >= 3 && currentHour < 5 && !user.badges.find(b => b.id === 'gece_kusu')) {
+      newBadges.push({
+        id: 'gece_kusu', name: 'Gece Kuşu', icon: 'fas fa-moon', description: 'Gecenin köründe, 03:00 - 05:00 arası okuma yaptın.'
+      });
+    }
+
+    // 3. Isekai Maceracısı
+    const story = await Story.findById(storyId).populate('categories');
+    if (story && story.categories) {
+       const isIsekai = story.categories.some(cat => cat.name && cat.name.toLowerCase().includes('isekai'));
+       if (isIsekai && !user.badges.find(b => b.id === 'isekai_maceracisi')) {
+         newBadges.push({
+           id: 'isekai_maceracisi', name: 'Isekai Maceracısı', icon: 'fas fa-truck', description: 'Kamyon-kun seni de buldu! Isekai türünde okuma yaptın.'
+         });
+       }
+    }
+
+    // 4. Usta Okuyucu
+    if (user.totalReadChapters === 50 && !user.badges.find(b => b.id === 'usta_okuyucu')) {
+      newBadges.push({
+        id: 'usta_okuyucu', name: 'Usta Okuyucu', icon: 'fas fa-book-reader', description: 'Tam 50 bölüm okudun! Manga dünyasının tozunu yutmaya başladın.'
+      });
+    }
+
+    if (newBadges.length > 0) {
+      user.badges.push(...newBadges);
+      
+      // Emit socket events for each earned badge
+      if (socketApi && socketApi.io) {
+        newBadges.forEach(badge => {
+          socketApi.io.emit('badge-unlocked', {
+            user: user.name,
+            userAvatar: user.avatar,
+            badgeName: badge.name,
+            badgeIcon: badge.icon,
+            badgeDesc: badge.description
+          });
+        });
+      }
+    }
+    // --- END BADGE ENGINE ---
+
     await user.save()
-    res.json({ success: true })
+
+    // --- LIVE STREAM EVENT ---
+    if (socketApi && socketApi.io) {
+      socketApi.io.emit('recent-activity', {
+        user: user.name,
+        userAvatar: user.avatar,
+        chapterName: chapterName || 'Bir bölüm',
+        storyName: story ? story.name : 'Bir seri',
+        url: chapterUrl || '#'
+      });
+    }
+    // --- END LIVE STREAM EVENT ---
+
+    res.json({ success: true, newBadges })
   } catch (error) {
     res.status(500).json({ error: 'Server error' })
   }
@@ -72,6 +163,7 @@ router.get('/:type(history|bookmark|account)', async (req, res, next) => {
     if (user) {
       cloudLibrary.bookmarks = user.bookmarks.filter(s => s != null)
       cloudLibrary.history = user.history.filter(h => h.story != null)
+      cloudLibrary.badges = user.badges || []
 
       let totalReads = user.totalReadChapters || 0;
       let levelTitle = '';

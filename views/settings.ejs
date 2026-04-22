@@ -70,6 +70,22 @@
                                                                     </div>
                                                                     <% } %>
 
+                                                                    <% if (typeof cloudLibrary !== 'undefined' && cloudLibrary.badges && cloudLibrary.badges.length > 0) { %>
+                                                                    <div class="user-badges-board" style="background: #1e1e24; border-radius: 15px; padding: 20px; color: #fff; margin-bottom: 25px; border: 1px solid rgba(255,215,0,0.2);">
+                                                                        <h4 style="margin-top:0; margin-bottom: 15px; color: #ffd700;"><i class="fas fa-medal"></i> Kazanılan Rozetler</h4>
+                                                                        <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+                                                                            <% cloudLibrary.badges.forEach(function(badge) { %>
+                                                                                <div style="text-align: center; width: 80px;">
+                                                                                    <div class="badge-item" style="width: 50px; height: 50px; font-size: 24px; margin: 0 auto 8px auto;" data-title="<%= badge.description %>">
+                                                                                        <i class="<%= badge.icon %>"></i>
+                                                                                    </div>
+                                                                                    <div style="font-size: 11px; color: #ccc; line-height: 1.2;"><%= badge.name %></div>
+                                                                                </div>
+                                                                            <% }); %>
+                                                                        </div>
+                                                                    </div>
+                                                                    <% } %>
+
                                                                     <div class="tabs-content-wrap">
                                                                         <div class="tab-content">
                                                                             <div class="tab-pane active" style="position: relative;">

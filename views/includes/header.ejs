@@ -188,7 +188,18 @@
                 <div class="c-modal_item">
                     <% if (user) { %>
                         <div class="c-user_item">
-                            <div class="c-user_meta"><span>Merhaba, <%= user.name %></span></div>
+                            <div class="c-user_meta">
+                                <span>Merhaba, <%= user.name %></span>
+                                <% if (user.badges && user.badges.length > 0) { %>
+                                    <div class="user-badges">
+                                        <% user.badges.forEach(function(badge) { %>
+                                            <span class="badge-item" data-title="<%= badge.name %> - <%= badge.description %>">
+                                                <i class="<%= badge.icon %>"></i>
+                                            </span>
+                                        <% }); %>
+                                    </div>
+                                <% } %>
+                            </div>
                             <div class="c-user_avatar">
                                 <div class="c-user_avatar-image">
                                     <img alt="<%= user.name %>" src="<%= user.avatar %>" height="50" width="50"

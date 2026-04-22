@@ -1,6 +1,7 @@
 const router = require('express').Router();
 const User = require('../models/User');
 const Comment = require('../models/Comment');
+const socketApi = require('../socket');
 
 // Middleware to check if user is authenticated (simple check based on cookie or session if available)
 // Project seems to use cookies for simple auth. We'll extract user from req.cookies or similar if standard.
@@ -72,6 +73,37 @@ router.post('/', async (req, res) => {
             parent: parentId ? parseInt(parentId) : null,
             createdAt: Date.now()
         });
+        
+        // --- BADGE ENGINE: Yorum Canavarı ---
+        try {
+            const commentCount = await Comment.countDocuments({ user: userId });
+            if (commentCount === 1) {
+                const userObj = await User.findById(userId);
+                if (userObj) {
+                    if (!userObj.badges) userObj.badges = [];
+                    if (!userObj.badges.find(b => b.id === 'yorum_canavari')) {
+                        const badge = {
+                            id: 'yorum_canavari', name: 'Yorum Canavarı', icon: 'fas fa-comment-dots', description: 'İlk yorumunuzu yaparak sohbete katıldınız!'
+                        };
+                        userObj.badges.push(badge);
+                        await userObj.save();
+                        
+                        if (socketApi && socketApi.io) {
+                            socketApi.io.emit('badge-unlocked', {
+                                user: userObj.name,
+                                userAvatar: userObj.avatar,
+                                badgeName: badge.name,
+                                badgeIcon: badge.icon,
+                                badgeDesc: badge.description
+                            });
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            console.error('Badge error in comment:', e);
+        }
+        // --- END BADGE ENGINE ---
 
         res.json({ success: true, comment });
     } catch (err) {

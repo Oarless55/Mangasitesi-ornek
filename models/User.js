@@ -52,7 +52,17 @@ const UserSchema = new mongoose.Schema({
   totalReadChapters: {
     type: Number,
     default: 0
-  }
+  },
+  badges: [{
+    id: String,
+    name: String,
+    icon: String,
+    description: String,
+    earnedAt: {
+      type: Date,
+      default: Date.now
+    }
+  }]
 })
 
 UserSchema.pre('save', function (next) {
