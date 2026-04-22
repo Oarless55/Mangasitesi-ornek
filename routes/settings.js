@@ -12,7 +12,7 @@ router.post('/api/bookmark', async (req, res) => {
   try {
     const { storyId } = req.body
     const user = await User.findById(res.locals.user._id)
-    const index = user.bookmarks.indexOf(storyId)
+    const index = user.bookmarks.findIndex(id => id.toString() === storyId.toString())
     let newBadges = [];
     if (index === -1) {
       user.bookmarks.unshift(storyId) // Add to top
