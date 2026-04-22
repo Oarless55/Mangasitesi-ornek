@@ -11,8 +11,11 @@ router.post('/api/bookmark', async (req, res) => {
   if (!res.locals.user) return res.status(401).json({ error: 'Unauthorized' })
   try {
     const { storyId } = req.body
+    if (!storyId) return res.status(400).json({ error: 'Missing storyId' });
     const user = await User.findById(res.locals.user._id)
-    const index = user.bookmarks.findIndex(id => id.toString() === storyId.toString())
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (!user.bookmarks) user.bookmarks = [];
+    const index = user.bookmarks.findIndex(id => id && id.toString() === storyId.toString())
     let newBadges = [];
     if (index === -1) {
       user.bookmarks.unshift(storyId) // Add to top
@@ -42,7 +45,7 @@ router.post('/api/bookmark', async (req, res) => {
     await user.save()
     res.json({ success: true, isBookmarked: index === -1, newBadges })
   } catch (error) {
-    res.status(500).json({ error: 'Server error' })
+    res.status(500).json({ error: error.message || 'Server error' })
   }
 })
 
@@ -144,7 +147,7 @@ router.post('/api/history', async (req, res) => {
 
     res.json({ success: true, newBadges })
   } catch (error) {
-    res.status(500).json({ error: 'Server error' })
+    res.status(500).json({ error: error.message || 'Server error' })
   }
 })
 
