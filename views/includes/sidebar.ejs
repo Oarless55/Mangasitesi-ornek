@@ -94,6 +94,53 @@
             </div>
         </div>
 
+        <!-- ===== DUYURULAR WIDGET ===== -->
+        <% if (typeof announcements !== 'undefined' && announcements && announcements.length > 0) { %>
+        <div class="row" style="margin-top: 20px;">
+            <div class="widget col-xs-12 col-md-12 bordered no-icon heading-style-1">
+                <div class="widget__inner c-widget-wrap">
+                    <!-- Başlık -->
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; padding-bottom:12px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                        <div style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#1565c0,#42a5f5); display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 0 12px rgba(66,165,245,0.4);">📢</div>
+                        <h3 style="margin:0; font-size:15px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#42a5f5;">Duyurular</h3>
+                    </div>
+
+                    <% 
+                    const annColors = {
+                        info:    { bg: 'rgba(33,150,243,0.1)',  border: '#2196f3', icon: 'ℹ️',  text: '#90caf9' },
+                        success: { bg: 'rgba(76,175,80,0.1)',   border: '#4caf50', icon: '✅',  text: '#a5d6a7' },
+                        warning: { bg: 'rgba(255,193,7,0.1)',   border: '#ffc107', icon: '⚠️', text: '#ffe082' },
+                        danger:  { bg: 'rgba(244,67,54,0.1)',   border: '#f44336', icon: '🚨', text: '#ef9a9a' }
+                    };
+                    announcements.forEach(function(ann) {
+                        const style = annColors[ann.type] || annColors.info;
+                        const dateStr = new Date(ann.createdAt).toLocaleDateString('tr-TR', { day:'numeric', month:'short' });
+                    %>
+                    <div style="padding:12px 14px; border-radius:10px; margin-bottom:10px; background:<%= style.bg %>; border-left: 3px solid <%= style.border %>; position:relative;">
+                        <div style="display:flex; align-items:flex-start; gap:10px;">
+                            <span style="font-size:16px; flex-shrink:0; margin-top:1px;"><%= style.icon %></span>
+                            <div style="flex-grow:1; min-width:0;">
+                                <div style="font-size:13px; font-weight:700; color:<%= style.text %>; margin-bottom:4px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"><%= ann.title %></div>
+                                <div style="font-size:12px; color:#bbb; line-height:1.5;"><%= ann.content %></div>
+                                <div style="font-size:11px; color:#666; margin-top:6px;"><i class="icon ion-md-time"></i> <%= dateStr %></div>
+                            </div>
+                        </div>
+                    </div>
+                    <% }); %>
+
+                    <% if (typeof user !== 'undefined' && user && user.role === 'admin') { %>
+                    <div style="margin-top:10px; padding-top:10px; border-top:1px solid rgba(255,255,255,0.07);">
+                        <a href="/admin/announcements" style="display:flex; align-items:center; gap:6px; font-size:12px; color:#aaa; text-decoration:none; transition:color 0.2s;" onmouseover="this.style.color='#42a5f5'" onmouseout="this.style.color='#aaa'">
+                            <i class="icon ion-md-settings"></i> Duyuruları Yönet
+                        </a>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <!-- ===== / DUYURULAR ===== -->
+
         <!-- ===== LEVEL SIRALAMASI WIDGET ===== -->
         <% if (typeof top10Users !== 'undefined' && top10Users && top10Users.length > 0) { %>
         <div class="row" style="margin-top: 20px;">

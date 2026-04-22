@@ -1,0 +1,153 @@
+<html lang="tr">
+
+<%- include('includes/head', { title: 'Duyuru Yönetimi', description: 'Admin duyuru paneli', seo_image: process.env.DOMAIN + '/images/share.jpg', showAds: false }); -%>
+
+<body class="page <%= lightTheme ? '' : 'text-ui-light' %>">
+    <div id="app" class="wrap">
+        <div class="body-wrap">
+            <%- include('includes/header') -%>
+            <div class="site-content">
+                <div class="c-page-content style-2">
+                    <div class="content-area" style="padding: 40px 0;">
+                        <div class="container">
+
+                            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:30px;">
+                                <h1 style="margin:0; font-size:26px;">📢 Duyuru Yönetimi</h1>
+                                <a href="/" style="color:#aaa; font-size:13px; text-decoration:none;">← Ana Sayfaya Dön</a>
+                            </div>
+
+                            <!-- YENİ DUYURU FORMU -->
+                            <div style="background: rgba(255,255,255,0.04); border-radius:15px; padding:25px; border:1px solid rgba(255,255,255,0.08); margin-bottom:30px;">
+                                <h3 style="margin-top:0; margin-bottom:20px; color:#42a5f5; font-size:16px;">➕ Yeni Duyuru Ekle</h3>
+                                <form id="ann-form">
+                                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px; margin-bottom:15px;">
+                                        <div>
+                                            <label style="display:block; margin-bottom:6px; font-size:13px; color:#aaa;">Başlık *</label>
+                                            <input id="ann-title" type="text" placeholder="Duyuru başlığı..." style="width:100%; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.3); color:#fff; font-size:14px; box-sizing:border-box;">
+                                        </div>
+                                        <div>
+                                            <label style="display:block; margin-bottom:6px; font-size:13px; color:#aaa;">Tür</label>
+                                            <select id="ann-type" style="width:100%; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.3); color:#fff; font-size:14px; box-sizing:border-box;">
+                                                <option value="info">ℹ️ Bilgi</option>
+                                                <option value="success">✅ Başarı</option>
+                                                <option value="warning">⚠️ Uyarı</option>
+                                                <option value="danger">🚨 Kritik</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div style="margin-bottom:15px;">
+                                        <label style="display:block; margin-bottom:6px; font-size:13px; color:#aaa;">İçerik *</label>
+                                        <textarea id="ann-content" rows="3" placeholder="Duyuru içeriği..." style="width:100%; padding:10px 14px; border-radius:8px; border:1px solid rgba(255,255,255,0.15); background:rgba(0,0,0,0.3); color:#fff; font-size:14px; resize:vertical; box-sizing:border-box;"></textarea>
+                                    </div>
+                                    <button type="submit" id="ann-submit" style="padding:10px 24px; background:linear-gradient(135deg,#1565c0,#42a5f5); border:none; border-radius:8px; color:#fff; font-weight:700; font-size:14px; cursor:pointer; transition:opacity 0.2s;">
+                                        <i class="icon ion-md-send"></i> Duyuruyu Yayınla
+                                    </button>
+                                    <span id="ann-msg" style="margin-left:15px; font-size:13px;"></span>
+                                </form>
+                            </div>
+
+                            <!-- MEVCUT DUYURULAR -->
+                            <div id="ann-list">
+                                <h3 style="margin-bottom:15px; font-size:16px; color:#aaa;">Mevcut Duyurular</h3>
+                                <div id="ann-items">
+                                    <% announcements.forEach(function(ann) { 
+                                        const colors = {
+                                            info: '#2196f3', success: '#4caf50', warning: '#ffc107', danger: '#f44336'
+                                        };
+                                        const icons = { info: 'ℹ️', success: '✅', warning: '⚠️', danger: '🚨' };
+                                        const color = colors[ann.type] || colors.info;
+                                    %>
+                                    <div class="ann-row" id="ann-<%= ann._id %>" style="display:flex; align-items:flex-start; gap:15px; padding:15px; border-radius:10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); margin-bottom:10px;">
+                                        <div style="width:10px; height:10px; border-radius:50%; background:<%= color %>; flex-shrink:0; margin-top:5px;"></div>
+                                        <div style="flex-grow:1; min-width:0;">
+                                            <div style="font-weight:700; font-size:14px; margin-bottom:4px;"><%= icons[ann.type] %> <%= ann.title %></div>
+                                            <div style="font-size:13px; color:#bbb;"><%= ann.content %></div>
+                                            <div style="font-size:11px; color:#666; margin-top:6px;">
+                                                <%= new Date(ann.createdAt).toLocaleDateString('tr-TR', {day:'numeric', month:'long', year:'numeric'}) %>
+                                                · <span style="color:<%= ann.isActive ? '#4caf50' : '#f44336' %>"><%= ann.isActive ? 'Aktif' : 'Pasif' %></span>
+                                            </div>
+                                        </div>
+                                        <div style="display:flex; gap:8px; flex-shrink:0;">
+                                            <button onclick="toggleAnn('<%= ann._id %>')" style="padding:6px 12px; border-radius:6px; border:1px solid rgba(255,255,255,0.2); background:transparent; color:#aaa; font-size:12px; cursor:pointer;" title="Aktif/Pasif">
+                                                <%= ann.isActive ? '⏸ Pasif Yap' : '▶️ Aktif Yap' %>
+                                            </button>
+                                            <button onclick="deleteAnn('<%= ann._id %>')" style="padding:6px 12px; border-radius:6px; border:1px solid rgba(244,67,54,0.4); background:rgba(244,67,54,0.1); color:#ef9a9a; font-size:12px; cursor:pointer;" title="Sil">
+                                                🗑 Sil
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <% }); %>
+                                    <% if (announcements.length === 0) { %>
+                                    <div style="text-align:center; padding:40px; color:#666;">
+                                        <div style="font-size:48px; margin-bottom:15px;">📭</div>
+                                        <p>Henüz duyuru eklenmemiş.</p>
+                                    </div>
+                                    <% } %>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <%- include('includes/footer') -%>
+        </div>
+    </div>
+
+    <%- include('includes/script-core') -%>
+
+    <script>
+    document.getElementById('ann-form').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('ann-submit');
+        const msg = document.getElementById('ann-msg');
+        btn.disabled = true;
+        btn.textContent = 'Gönderiliyor...';
+
+        try {
+            const res = await fetch('/api/announcements', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    title: document.getElementById('ann-title').value,
+                    content: document.getElementById('ann-content').value,
+                    type: document.getElementById('ann-type').value
+                })
+            });
+            const data = await res.json();
+            if (data.success) {
+                msg.style.color = '#4caf50';
+                msg.textContent = '✅ Duyuru yayınlandı! Sayfa yenileniyor...';
+                setTimeout(() => location.reload(), 1200);
+            } else {
+                msg.style.color = '#f44336';
+                msg.textContent = '❌ Hata: ' + data.error;
+            }
+        } catch(err) {
+            msg.style.color = '#f44336';
+            msg.textContent = '❌ Bağlantı hatası.';
+        }
+        btn.disabled = false;
+        btn.innerHTML = '<i class="icon ion-md-send"></i> Duyuruyu Yayınla';
+    });
+
+    async function deleteAnn(id) {
+        if (!confirm('Bu duyuruyu silmek istediğinizden emin misiniz?')) return;
+        const res = await fetch('/api/announcements/' + id, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.success) {
+            document.getElementById('ann-' + id).remove();
+        }
+    }
+
+    async function toggleAnn(id) {
+        const res = await fetch('/api/announcements/' + id + '/toggle', { method: 'PATCH' });
+        const data = await res.json();
+        if (data.success) {
+            location.reload();
+        }
+    }
+    </script>
+
+</body>
+</html>

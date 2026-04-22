@@ -82,6 +82,17 @@ app.use(aboutRoutes)
 app.use('/settings', require('./routes/settings'))
 app.use('/api/comments', require('./routes/comment'))
 app.use('/api/reactions', require('./routes/reaction'))
+app.use('/api/announcements', require('./routes/announcement'))
+
+// Admin sayfaları
+app.get('/admin/announcements', async (req, res) => {
+  if (!res.locals.user || res.locals.user.role !== 'admin') {
+    return res.redirect('/')
+  }
+  const Announcement = require('./models/Announcement')
+  const announcements = await Announcement.find().sort({ createdAt: -1 }).lean()
+  res.render('admin-announcements', { announcements })
+})
 
 app.use(function (req, res) {
   return res.status(404).render('error')
