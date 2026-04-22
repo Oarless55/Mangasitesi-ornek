@@ -203,18 +203,26 @@
             }
 
             function checkRoute() {
-                const path = window.location.hash || window.location.pathname;
+                const path = window.location.pathname + window.location.hash;
+                const isHistory  = path.includes('history')  || path.includes('gecmis')  || path.includes('Lịch Sử');
+                const isBookmark = path.includes('bookmark') || path.includes('takip')   || path.includes('Theo Dõi');
                 
-                if (path.includes('history') || path.includes('gecmis') || path.includes('Lịch Sử')) {
+                if (isHistory) {
                     vueContainer.style.display = 'none';
                     historyView.style.display = 'block';
                     bookmarkView.style.display = 'none';
-                    renderMangas(historyGrid, 'manga_history', 'Henüz okuduğunuz bir seri bulunmuyor.', finalHistoryData);
-                } else if (path.includes('bookmark') || path.includes('takip') || path.includes('Theo Dõi')) {
+                    if (!historyGrid.dataset.rendered) {
+                        renderMangas(historyGrid, 'manga_history', 'Henüz okuduğunuz bir seri bulunmuyor.', finalHistoryData);
+                        historyGrid.dataset.rendered = '1';
+                    }
+                } else if (isBookmark) {
                     vueContainer.style.display = 'none';
                     bookmarkView.style.display = 'block';
                     historyView.style.display = 'none';
-                    renderMangas(bookmarkGrid, 'manga_bookmarks', 'Henüz takip ettiğiniz bir seri bulunmuyor.', finalBookmarkData);
+                    if (!bookmarkGrid.dataset.rendered) {
+                        renderMangas(bookmarkGrid, 'manga_bookmarks', 'Henüz takip ettiğiniz bir seri bulunmuyor.', finalBookmarkData);
+                        bookmarkGrid.dataset.rendered = '1';
+                    }
                 } else {
                     vueContainer.style.display = 'block';
                     historyView.style.display = 'none';

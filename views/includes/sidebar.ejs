@@ -93,5 +93,55 @@
                 </div>
             </div>
         </div>
+
+        <!-- ===== LEVEL SIRALAMASI WIDGET ===== -->
+        <% if (typeof top10Users !== 'undefined' && top10Users && top10Users.length > 0) { %>
+        <div class="row" style="margin-top: 20px;">
+            <div class="widget col-xs-12 col-md-12 bordered no-icon heading-style-1">
+                <div class="widget__inner c-widget-wrap">
+                    <!-- Başlık -->
+                    <div style="display:flex; align-items:center; gap:10px; margin-bottom:15px; padding-bottom:12px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+                        <div style="width:32px; height:32px; border-radius:50%; background:linear-gradient(135deg,#f7971e,#ffd200); display:flex; align-items:center; justify-content:center; font-size:16px; box-shadow:0 0 12px rgba(255,210,0,0.4);">🏆</div>
+                        <h3 style="margin:0; font-size:15px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:#ffd200;">Level Sıralaması</h3>
+                    </div>
+
+                    <!-- Liste -->
+                    <% top10Users.forEach(function(u, idx) {
+                        let reads = u.totalReadChapters || 0;
+                        let lvl = 1, title = 'Acemi', color = '#78909c';
+                        if (reads > 500)      { lvl = 5; title = 'Manga Tanrısı'; color = '#ab47bc'; }
+                        else if (reads > 300) { lvl = 4; title = 'Efsanevi';      color = '#ffd700'; }
+                        else if (reads > 150) { lvl = 3; title = 'Usta';          color = '#42a5f5'; }
+                        else if (reads > 50)  { lvl = 2; title = 'Deneyimli';     color = '#66bb6a'; }
+                        
+                        let medal = '';
+                        if (idx === 0) medal = '🥇';
+                        else if (idx === 1) medal = '🥈';
+                        else if (idx === 2) medal = '🥉';
+                        else medal = (idx + 1) + '.';
+                    %>
+                    <div style="display:flex; align-items:center; gap:10px; padding:8px 10px; border-radius:10px; margin-bottom:6px; background: rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.05); transition:background 0.2s;" onmouseover="this.style.background='rgba(255,255,255,0.07)'" onmouseout="this.style.background='rgba(255,255,255,0.03)'">
+                        <!-- Sıra -->
+                        <div style="width:28px; text-align:center; font-size:<%= idx < 3 ? '18px' : '13px' %>; font-weight:700; color:#aaa; flex-shrink:0;"><%= medal %></div>
+                        <!-- Avatar -->
+                        <img src="<%= u.avatar || 'https://i.imgur.com/pqGLgGr.jpg' %>" alt="<%= u.name %>" style="width:36px; height:36px; border-radius:50%; object-fit:cover; border:2px solid <%= color %>; flex-shrink:0;">
+                        <!-- İsim + Unvan -->
+                        <div style="flex-grow:1; overflow:hidden;">
+                            <div style="font-size:13px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;"><%= u.name %></div>
+                            <div style="font-size:11px; color:<%= color %>; font-weight:500;">Lv.<%= lvl %> · <%= title %></div>
+                        </div>
+                        <!-- Bölüm sayısı -->
+                        <div style="text-align:right; flex-shrink:0;">
+                            <div style="font-size:13px; font-weight:700; color:<%= color %>;"><%= reads %></div>
+                            <div style="font-size:10px; color:#666;">bölüm</div>
+                        </div>
+                    </div>
+                    <% }); %>
+                </div>
+            </div>
+        </div>
+        <% } %>
+        <!-- ===== / LEVEL SIRALAMASI ===== -->
+
     </div>
 </div>
