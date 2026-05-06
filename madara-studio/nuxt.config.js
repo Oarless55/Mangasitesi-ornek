@@ -19,6 +19,11 @@ export default {
         type: 'text/javascript',
         async: true,
         defer: true
+      },
+      {
+        src: 'https://pl29358347.profitablecpmratenetwork.com/25/d6/d6/25d6d672e2aac44302708f164f5d2f49.js',
+        type: 'text/javascript',
+        body: true
       }
     ]
   },
